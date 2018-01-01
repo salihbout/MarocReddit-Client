@@ -1,19 +1,23 @@
 <template>
-    <el-card class="box-card">
+<div class="PostCardsWrapper">
+ <div class="SinglePostCard" >
         <el-row>
-            <el-col :xs="6" :sm="6" :md="6" :lg="6" :xl="6">
-                <li class="list-group-item">
-                    <i class="glyphicon glyphicon-chevron-up" @click="upvote"></i>
-                    <span class="label label-primary">{{ post.votes }}</span>
-                    <i class="glyphicon glyphicon-chevron-down" @click="downvote"></i>
+            <el-col :xs="3" :sm="3" :md="3" :lg="3" :xl="3" >
                     
-                </li>
+                    <el-button size="mini" round><i class="el-icon-arrow-up" @click="upvote"></i></el-button>
+                    <span class="NumberVotes">{{ post.votes }}</span>
+                    <el-button size="mini" round><i class="el-icon-arrow-down" @click="downvote"></i></el-button>
+                    
+                
             </el-col>
-            <el-col :xs="18" :sm="18" :md="18" :lg="18" :xl="18">
+            <el-col :xs="21" :sm="21" :md="21" :lg="21" :xl="21">
                 <a>{{ post.title }}</a>
             </el-col>
         </el-row>
-    </el-card>
+    </div>
+    
+</div>
+   
 </template>
 
 <script>
@@ -53,4 +57,27 @@ props: ['post'],
 
 <style scoped>
 
+.PostCardsWrapper {
+
+    padding-top: 10px;
+}
+
+.SinglePostCard{
+
+    background-color: white;
+    border: 1px solid #F5F5F5;
+    width: 100%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    border-radius: 4px;
+    margin-left: 10px;
+}
+
+.NumberVotes{
+    color: #409EFF;
+    font-size: 16px;
+    font-weight: bold;
+    padding : 5px;
+}
 </style>

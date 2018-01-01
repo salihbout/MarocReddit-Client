@@ -1,7 +1,8 @@
 <template>
-    <el-row :gutter="20">
-      <el-col :span="16">
-        <PostCard  v-for="post in posts" :post="post"></PostCard>
+
+    <el-row :gutter="20" type="flex" >
+      <el-col :span="16" :offset="2">
+        <HomePostsSection :posts="posts"></HomePostsSection>
       </el-col>
       <el-col :span="8">
         <p>Side section</p>
@@ -9,24 +10,28 @@
     </el-row>
 </template>
 <script>
-import PostCard from '../posts/PostCard.vue';
+import HomePostsSection from '../posts/HomePostsSection.vue';
+
 export default {
   
   name: 'Home',
-  components: {
-    'PostCard' : PostCard
+  components : {
+    HomePostsSection : HomePostsSection,
   },
     data() {
       return {
       posts: [{
+          id: 1,
           title: "A post for our reddit demo starting at 15 votes",
           votes: 15
         },
         {
+          id: 2,
           title: "Try out the upvoting, it works, I promise",
           votes: 53
         },
         {
+          id: 3,
           title: "coligo is the bomb!",
           votes: 10
         }]
@@ -34,3 +39,4 @@ export default {
 }
 }
 </script>
+
