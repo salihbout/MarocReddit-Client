@@ -4,19 +4,19 @@
         <el-col :span="8"  :offset="8">
             <el-card class="box-card">
                 <h2>Login to your acount</h2>
-                <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm" label-position="left">
+                <el-form :model="User" :rules="rules" ref="User" label-width="120px" class="demo-User" label-position="left">
                     <el-form-item label="Username" prop="username">
-                        <el-input v-model="ruleForm.username"></el-input>
+                        <el-input v-model="User.username"></el-input>
                     </el-form-item>
                     <el-form-item label="Password" prop="password">
-                        <el-input  type="password" v-model="ruleForm.password"></el-input>
+                        <el-input  type="password" v-model="User.password"></el-input>
                     </el-form-item>
                     <el-form-item label="Remeber Me !" prop="remember">
-                        <el-switch v-model="ruleForm.remember"></el-switch>
+                        <el-switch v-model="User.remember"></el-switch>
                     </el-form-item>
                     <el-form-item>
-                        <el-button type="primary" @click="submitForm('ruleForm')">Login</el-button>
-                        <el-button @click="resetForm('ruleForm')">Reset</el-button>
+                        <el-button type="primary" @click="submitForm('User')">Login</el-button>
+                        <el-button @click="resetForm('User')">Reset</el-button>
                     </el-form-item>
                     
                 </el-form>
@@ -30,11 +30,12 @@
 
 
 <script>
+import axios from 'axios';
 export default {
     
      data() {
       return {
-        ruleForm: {
+        User: {
           username: '',
           password: ''
         },
@@ -52,9 +53,24 @@ methods: {
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            alert('submit!');
+
+            console.log(this.User.username);
+            console.log(this.User.password);
+
+            axios.post('http://localhost:3000/api/authenticate',{
+                username : this.User.username,
+                password : this.User.password
+            })
+            .then(function (response) {
+                console.log(response);
+            })
+            .catch(function (error) {
+                 console.log(error);
+            });
+            
+
           } else {
-            console.log(this.username);
+            console.log("Not valid !");
             return false;
           }
         });

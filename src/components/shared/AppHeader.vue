@@ -10,7 +10,7 @@
                     </el-menu-item>
                 </el-col>
                 <el-col  :xs="8" :sm="6" :md="14" :lg="14" :xl="14" >
-                    <el-menu-item index="1">Home</el-menu-item>
+                    <router-link to="/"><el-menu-item index="1">Home</el-menu-item></router-link>
                     <el-submenu index="2">
                         <template slot="title">Categories</template>
                         <el-menu-item index="2-1">Technology</el-menu-item>
