@@ -1,6 +1,6 @@
-# marocredditclient
+# Maroc Reddit Clone - Client Side
 
-> A Vue.js project
+> A Vue.js, ElementUI project
 
 ## Build Setup
 
