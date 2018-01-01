@@ -27,7 +27,19 @@
                     <el-menu-item index="4">Chat</el-menu-item>
                     <el-menu-item index="5">Become a Moderator</el-menu-item>
                 </el-col>
-                <el-col  :xs="8" :sm="6" :md="6" :lg="6" :xl="6" >
+                <el-col :xs="8" :sm="2" :md="2" :lg="2" :xl="2" class="login">
+                    <el-popover
+                        ref="popover"
+                        placement="bottom"
+                        title="Title"
+                        width="200"
+                        trigger="hover"
+                        content="this is content, this is content, this is content">
+                    </el-popover>
+                    <el-button v-popover:popover>Search</el-button>
+
+                </el-col>
+                <el-col  :xs="8" :sm="4" :md="4" :lg="4" :xl="4" >
                     <div class="login">
                         <router-link to="/signup"><el-button type="primary" round>Sign Up</el-button></router-link>
                         <router-link to="/login"><el-button round>Login</el-button></router-link>

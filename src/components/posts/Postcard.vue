@@ -10,8 +10,16 @@
                     
                 
             </el-col>
-            <el-col :xs="21" :sm="21" :md="21" :lg="21" :xl="21">
-                <a>{{ post.title }}</a>
+            <el-col :xs="18" :sm="18" :md="18" :lg="18" :xl="18" >
+                <a href="#">{{ post.title }}</a>
+
+            </el-col>
+            <el-col :xs="3" :sm="3" :md="3" :lg="3" :xl="3" class="PostStats">
+              <i class="el-icon-view"></i>
+              <span>{{post.numViews}}</span>
+              
+              <i class="el-icon-edit"></i>
+              <span>{{post.numComments}}</span>
             </el-col>
         </el-row>
     </div>
@@ -79,5 +87,16 @@ props: ['post'],
     font-size: 16px;
     font-weight: bold;
     padding : 5px;
+}
+
+.PostStats{
+  color: gray;
+}
+.PostStats i{
+  padding-right: 5px;
+}
+
+.PostStats span {
+  padding-right: 5px;
 }
 </style>
