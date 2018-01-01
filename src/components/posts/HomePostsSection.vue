@@ -1,6 +1,6 @@
 <template>
    <el-row class="HomePostsSectionWrapper" :gutter="20">
-        <h2>Popular Posts</h2>
+
         <div class="HomePostsListingWrapper" >
                 <postCard v-for="post in posts" v-bind:key="post.id" :post="post">
                 </postCard>
@@ -21,10 +21,6 @@ export default {
 </script>
 
 <style scoped>
-.HomePostsListingWrapper{
-
-    padding-top: 5px;
-}
 
 
 </style>
