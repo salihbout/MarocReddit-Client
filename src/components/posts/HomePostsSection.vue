@@ -1,8 +1,8 @@
 <template>
-   <el-row class="HomePostsSectionWrapper" :gutter="20">
+   <el-row :gutter="20">
 
-        <div class="HomePostsListingWrapper" >
-                <postCard v-for="post in posts" v-bind:key="post.id" :post="post">
+        <div >
+                <postCard v-for="(post,index) in posts"  v-bind:key="index" :post="post">
                 </postCard>
         </div>
    </el-row>

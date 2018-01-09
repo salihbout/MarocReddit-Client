@@ -1,10 +1,10 @@
 <template>
    <div id="HomePageWrapper">
     <el-row :gutter="20">
-      <el-col :span="16" :offset="1">
+      <el-col :xs="24" :sm="24" :md="16" :lg="16" :xl="16" :offset="1">
         <el-tabs v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="Popular" name="first">
-          <HomePostsSection :posts="postsPopular"></HomePostsSection>
+          <HomePostsSection :posts="posts"></HomePostsSection>
         </el-tab-pane>
         <el-tab-pane label="Trending" name="second">
           <HomePostsSection :posts="postsTrending"></HomePostsSection>
@@ -14,7 +14,7 @@
         </el-tab-pane>
       </el-tabs>
       </el-col>
-      <el-col :span="6" >
+      <el-col :xs="24" :sm="6" :md="6" :lg="6" :xl="6" >
           <HomeSideSection></HomeSideSection>
       </el-col>
     </el-row>
@@ -23,7 +23,7 @@
 <script>
 import HomePostsSection from '../posts/HomePostsSection.vue';
 import HomeSideSection from './HomeSideSection.vue';
-
+import axios from 'axios';
 export default {
   
   name: 'Home',
@@ -34,6 +34,7 @@ export default {
     data() {
       return {
         activeName: 'first',
+        posts : '' ,
       postsPopular: [{
           id: 1,
           title: "A post for our reddit demo starting at 15 votes",
@@ -107,10 +108,25 @@ export default {
           numComments: 10,
           numViews: 100
         }],
+        created: function() {
+          this.loadPosts();
 
+        },
         methods: {
       handleClick(tab, event) {
         console.log(tab, event);
+      },
+      loadPosts : function(){
+        console.log("getting posts ....");
+        axios.get('http://localhost:3000/api/posts')
+          .then(function (response) {
+            console.log(response.data);
+           this.posts = response.data;
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+
       }
     }
 
@@ -122,7 +138,8 @@ export default {
 
 <style scoped>
 #HomePageWrapper {
-padding-top:  30px;;
+
+  padding-top:  30px;
 
 }
 </style>

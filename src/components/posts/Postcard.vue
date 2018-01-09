@@ -10,16 +10,26 @@
                     
                 
             </el-col>
-            <el-col :xs="18" :sm="18" :md="18" :lg="18" :xl="18" >
+            <el-col :xs="16" :sm="16" :md="16" :lg="16" :xl="16" >
+               <el-tag size="small">{{printType(post)}}</el-tag>
                 <a href="#">{{ post.title }}</a>
-
             </el-col>
-            <el-col :xs="3" :sm="3" :md="3" :lg="3" :xl="3" class="PostStats">
-              <i class="el-icon-view"></i>
-              <span>{{post.numViews}}</span>
-              
-              <i class="el-icon-edit"></i>
-              <span>{{post.numComments}}</span>
+            <el-col :xs="5" :sm="5" :md="5" :lg="5" :xl="5" class="PostStats">
+       
+                 <i class="el-icon-view"></i>
+                 <span>{{post.numViews}}</span>
+      
+             
+              <span></span>
+
+               <router-link to="#" class="postCardLinks" > 
+                <i class="el-icon-edit" ></i>
+                <span>{{post.numComments}} comments</span>
+               </router-link>
+
+               <router-link to="#" class="postCardLinks">
+                <i class="el-icon-share"></i>
+               </router-link>
             </el-col>
         </el-row>
     </div>
@@ -34,7 +44,8 @@ props: ['post'],
  data: function () {
     return {
       upvoted: false,
-      downvoted: false
+      downvoted: false,
+      
     };
   },
   methods: {
@@ -45,8 +56,15 @@ props: ['post'],
     downvote: function () {
       this.downvoted = !this.downvoted;
       this.upvoted = false;
-    }
-  },
+    },
+
+    printType : function(post){
+      if(post.text =="" || typeof post.text =='undefined'){
+        return 'Article';
+      }else {}
+        return 'Link';
+      }
+    },
   computed: {
     votes: function () {
       if (this.upvoted) {
@@ -77,7 +95,7 @@ props: ['post'],
     width: 100%;
     padding-top: 10px;
     padding-bottom: 10px;
-    padding-left: 10px;
+    padding-left: 20px;
     border-radius: 4px;
     margin-left: 10px;
 }
@@ -93,10 +111,17 @@ props: ['post'],
   color: gray;
 }
 .PostStats i{
-  padding-right: 5px;
+  padding-right: 2px;
 }
 
 .PostStats span {
-  padding-right: 5px;
+  padding-right: 2px;
+}
+
+.postCardLinks {
+  color: #409EFF;
+  font-weight: bold;
+  padding-right: 2px;
+  text-decoration-style: none;
 }
 </style>
