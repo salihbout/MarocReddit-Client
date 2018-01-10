@@ -10,7 +10,7 @@
                     </el-menu-item>
                 </el-col>
                 <el-col  :xs="8" :sm="6" :md="14" :lg="14" :xl="14" >
-                    <router-link to="/"><el-menu-item index="1">Home</el-menu-item></router-link>
+                    <router-link to="/" active-class="active" exact><el-menu-item index="1">Home</el-menu-item></router-link>
                     <el-submenu index="2">
                         <template slot="title">Categories</template>
                         <el-menu-item index="2-1">Technology</el-menu-item>
@@ -41,8 +41,8 @@
                 </el-col>
                 <el-col  :xs="8" :sm="4" :md="4" :lg="4" :xl="4" >
                     <div class="login">
-                        <router-link to="/signup"><el-button type="primary" round>Sign Up</el-button></router-link>
-                        <router-link to="/login"><el-button round>Login</el-button></router-link>
+                        <router-link to="/signup" active-class="active" exact><el-button type="primary" round>Sign Up</el-button></router-link>
+                        <router-link to="/login" active-class="active" exact><el-button round>Login</el-button></router-link>
                     </div>
                 </el-col>
             </el-menu>

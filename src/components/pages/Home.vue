@@ -4,7 +4,7 @@
       <el-col :xs="24" :sm="24" :md="16" :lg="16" :xl="16" :offset="1">
         <el-tabs v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="Popular" name="first">
-          <HomePostsSection :posts="posts"></HomePostsSection>
+          <HomePostsSection :posts="postsTrending"></HomePostsSection>
         </el-tab-pane>
         <el-tab-pane label="Trending" name="second">
           <HomePostsSection :posts="postsTrending"></HomePostsSection>
@@ -109,6 +109,7 @@ export default {
           numViews: 100
         }],
         created: function() {
+          console.log('loading ....')
           this.loadPosts();
 
         },
