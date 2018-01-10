@@ -12,7 +12,7 @@
             </el-col>
             <el-col :xs="16" :sm="16" :md="16" :lg="16" :xl="16" >
                <el-tag size="small">{{printType(post)}}</el-tag>
-               <router-link :to="{name: 'postShow', params:{id: post.id}}"><a >{{ post.title }}</a></router-link> 
+               <router-link :to="{name: 'postShow', params:{id: post.id}}">{{ post.title }}</router-link> 
             </el-col>
             <el-col :xs="5" :sm="5" :md="5" :lg="5" :xl="5" class="PostStats">
        

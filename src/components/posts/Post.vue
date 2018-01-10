@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="postDiv">
       <h3>Title</h3>
       <div class="SinglePostPage" >
         <el-row>
@@ -9,3 +9,10 @@
   </div>
 </template>
 
+
+<style scoped>
+
+.postDiv{
+  background-color: red;
+}
+</style>
