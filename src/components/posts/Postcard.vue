@@ -5,14 +5,14 @@
             <el-col :xs="3" :sm="3" :md="3" :lg="3" :xl="3" >
                     
                     <el-button size="mini" round><i class="el-icon-arrow-up" @click="upvote"></i></el-button>
-                    <span class="NumberVotes">{{ post.votes }}</span>
+                    <span class="NumberVotes">{{ getUpvotesCount() }}</span>
                     <el-button size="mini" round><i class="el-icon-arrow-down" @click="downvote"></i></el-button>
                     
                 
             </el-col>
             <el-col :xs="16" :sm="16" :md="16" :lg="16" :xl="16" >
                <el-tag size="small">{{printType(post)}}</el-tag>
-               <router-link :to="{name: 'postShow', params:{id: post.id}}">{{ post.title }}</router-link> 
+               <router-link  :to="{name: 'postShow', params:{id: post.id}}">{{ post.title }}</router-link> 
             </el-col>
             <el-col :xs="5" :sm="5" :md="5" :lg="5" :xl="5" class="PostStats">
        
@@ -24,7 +24,7 @@
 
                <router-link to="#" class="postCardLinks" > 
                 <i class="el-icon-edit" ></i>
-                <span>{{post.numComments}} </span>
+                <span>{{getCommentsCount()}} </span>
                </router-link>
                  | By :
                <router-link to="#" class="postCardLinks">
@@ -48,6 +48,11 @@ props: ['post'],
       
     }
   },
+  watch : {
+    '$router'(to, from){
+      thi
+    }
+  },
   methods: {
     upvote: function () {
       this.upvoted = !this.upvoted;
@@ -56,6 +61,12 @@ props: ['post'],
     downvote: function () {
       this.downvoted = !this.downvoted;
       this.upvoted = false;
+    },
+    getUpvotesCount : function(){
+      return 2;
+    },
+    getCommentsCount : function(){
+      return 3;
     },
 
     printType : function(post){

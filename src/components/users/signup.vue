@@ -12,18 +12,19 @@
                         <el-input  type="password" v-model="ruleForm.password"></el-input>
                     </el-form-item>
                     <el-form-item label="Confirm Password" prop="CheckPassword">
-                        <el-input  type="password" v-model="ruleForm.password"></el-input>
+                        <el-input  type="password" v-model="ruleForm.CheckPassword"></el-input>
                     </el-form-item>
                     <el-form-item label="Email address" prop="email">
-                        <el-input  type="email" v-model="ruleForm.password"></el-input>
+                        <el-input  type="email" v-model="ruleForm.email"></el-input>
                     </el-form-item>
-                    <el-checkbox-group v-model="ruleForm.type">
-                        <el-checkbox label="Susbcribe to MarocReddit Newsletter" name="type"></el-checkbox>
-                    </el-checkbox-group>
+                    
+                        <el-checkbox  v-model="ruleForm.SubsChecked">Susbcribe to MarocReddit Newsletter</el-checkbox>
+                    
                     <el-form-item class="formAction">
                         <el-button type="primary" @click="submitForm('ruleForm')">Sign Up</el-button>
                         <el-button @click="resetForm('ruleForm')">Reset</el-button>
                     </el-form-item>
+                    
                     
                 </el-form>
 
@@ -36,17 +37,20 @@
 
 
 <script>
+import axios from 'axios';
 export default {
     
      data() {
       return {
         ruleForm: {
           username: '',
-          password: ''
+          password: '', 
+          email: '',
+          SubsChecked:true
         },
          rules: {
           username: [
-            { required: true, message: 'Please enter your valid email', trigger: 'blur' },
+            { required: true, message: 'Please enter your valid Username', trigger: 'blur' },
           ],
           password: [
             { required: true, message: 'Please enter your password', trigger: 'blur' },
@@ -64,9 +68,20 @@ methods: {
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            alert('submit!');
+             axios.post('http://localhost:3000/api/signup',{
+                username : this.ruleForm.username,
+                password : this.ruleForm.password,
+                email : this.ruleForm.email,
+                isSubscribed :this.ruleForm.SubsChecked
+            }).then(function (response) {
+                console.log(response);
+            })
+            .catch(function (error) {
+                 console.log(error);
+            });
+            
           } else {
-            console.log(this.username);
+            console.log(this.ruleForm.username);
             return false;
           }
         });

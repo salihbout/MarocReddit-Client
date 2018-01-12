@@ -14,5 +14,6 @@
 
 .postDiv{
   background-color: red;
+  height: 500px;
 }
 </style>

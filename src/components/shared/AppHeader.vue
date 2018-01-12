@@ -41,8 +41,8 @@
                 </el-col>
                 <el-col  :xs="8" :sm="4" :md="4" :lg="4" :xl="4" >
                     <div class="login">
-                        <router-link to="/signup" active-class="active" exact><el-button type="primary" round>Sign Up</el-button></router-link>
-                        <router-link to="/login" active-class="active" exact><el-button round>Login</el-button></router-link>
+                        <router-link :to="{name: 'signup'}"  exact><el-button type="primary" round>Sign Up</el-button></router-link>
+                        <router-link :to="{name: 'login'}"  exact><el-button round>Login</el-button></router-link>
                     </div>
                 </el-col>
             </el-menu>

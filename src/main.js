@@ -3,18 +3,26 @@
 import Vue from 'vue'
 import App from './App.vue'
 import Element from 'element-ui'
+import VueRouter from 'vue-router'
 import 'element-ui/lib/theme-chalk/index.css'
-import router from './router'
+import {routes} from './router'
 
 
-Vue.use(Element)
+
+Vue.use(Element);
+Vue.use(VueRouter);
+
+const router = new VueRouter({
+  mode : 'history',
+  routes : routes
+});
 Vue.config.productionTip = false
 
 
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
-  router,
+  router : router,
   render: function(h) {
     return h(App)
 }
