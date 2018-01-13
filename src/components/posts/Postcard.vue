@@ -17,9 +17,9 @@
             <el-col :xs="5" :sm="5" :md="5" :lg="5" :xl="5" class="PostStats">
        
                  <i class="el-icon-view"></i>
-                 <span>{{post.numViews}}</span>
+                 <span>{{post.__v}}</span>
       
-             
+              
               <span></span>
 
                <router-link to="#" class="postCardLinks" > 
@@ -28,7 +28,7 @@
                </router-link>
                  | By :
                <router-link to="#" class="postCardLinks">
-                 <span>  {{post.user}} </span>
+                 <span>  {{post._creator.username}} </span>
                </router-link>
             </el-col>
         </el-row>

@@ -17,13 +17,12 @@
                         
                     </el-submenu>
                     <el-submenu index="3">
-                        <template slot="title">Discover Posts</template>
-                        <el-menu-item index="3-1">Newest</el-menu-item>
-                        <el-menu-item index="3-2">Popular</el-menu-item>
-                        <el-menu-item index="3-3">Trending</el-menu-item>
+                        <template slot="title">News</template>
+                        <el-menu-item index="3-1">Politics</el-menu-item>
+                        <el-menu-item index="3-2">Technology</el-menu-item>
+                        <el-menu-item index="3-3">Sport</el-menu-item>
                     </el-submenu>
                     <el-menu-item index="4">Chat</el-menu-item>
-                    <el-menu-item index="5">Become a Moderator</el-menu-item>
                 </el-col>
                 <el-col :xs="8" :sm="3" :md="4" :lg="4" :xl="4" class="loggedIn">
                     <el-popover
