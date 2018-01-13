@@ -9,14 +9,12 @@
                         </div>
                     </el-menu-item>
                 </el-col>
-                <el-col  :xs="8" :sm="6" :md="14" :lg="14" :xl="14" >
+                <el-col  :xs="8" :sm="6" :md="12" :lg="12" :xl="12" >
                     <router-link to="/" active-class="active" exact><el-menu-item index="1">Home</el-menu-item></router-link>
                     <el-submenu index="2">
                         <template slot="title">Categories</template>
-                        <el-menu-item index="2-1">Technology</el-menu-item>
-                        <el-menu-item index="2-2">Gags</el-menu-item>
-                        <el-menu-item index="2-3">Sport</el-menu-item>
-                        <el-menu-item index="2-3">Politics</el-menu-item>
+                        <el-menu-item index="2-1" v-for="(catItem, index) in CategoriesMenuItems" :key="index">{{catItem.name}}</el-menu-item>
+                        
                     </el-submenu>
                     <el-submenu index="3">
                         <template slot="title">Discover Posts</template>
@@ -27,16 +25,20 @@
                     <el-menu-item index="4">Chat</el-menu-item>
                     <el-menu-item index="5">Become a Moderator</el-menu-item>
                 </el-col>
-                <el-col :xs="8" :sm="2" :md="2" :lg="2" :xl="2" class="login">
+                <el-col :xs="8" :sm="3" :md="4" :lg="4" :xl="4" class="loggedIn">
                     <el-popover
                         ref="popover"
                         placement="bottom"
-                        title="Title"
                         width="200"
                         trigger="hover"
-                        content="this is content, this is content, this is content">
+                        content="Click to add a text or a link !">
                     </el-popover>
-                    <el-button v-popover:popover>Search</el-button>
+                     <router-link :to="{name: 'PostAdd'}"  ><el-button icon="el-icon-edit" type="primary" v-popover:popover>Add a Post</el-button></router-link>
+                    <span></span>
+                    <el-badge :value="15" is-dot class="item">
+                        <i id="NotificationsBell"  class="el-icon-bell"></i>
+                    </el-badge>
+
 
                 </el-col>
                 <el-col  :xs="8" :sm="4" :md="4" :lg="4" :xl="4" >
@@ -58,7 +60,24 @@ export default {
   data() {
     return {
       activeIndex: "1",
-      activeIndex2: "1"
+      CategoriesMenuItems : [
+          {name : "Technology", 
+            link: "#"
+          },
+           {name : "Gags", 
+            link: "#"
+          },
+           {name : "Politics", 
+            link: "#"
+          },
+           {name : "Sport", 
+            link: "#"
+          },
+          {name : "Fashion", 
+            link: "#"
+          }
+           
+           ]
     };
   },
   methods: {
@@ -77,7 +96,11 @@ export default {
   font-size: 26px;
 }
 
-.login {
-  padding-top: 5px;
+.loggedIn {
+  padding-top: 3px;
+}
+
+#NotificationsBell {
+    font-size: 20px;
 }
 </style>

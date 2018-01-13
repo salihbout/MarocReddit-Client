@@ -2,7 +2,7 @@
    <div id="HomePageWrapper">
     <el-row :gutter="20">
       <el-col :xs="24" :sm="24" :md="16" :lg="16" :xl="16" :offset="1">
-        <el-tabs v-model="activeName" @tab-click="handleClick">
+        <el-tabs v-model="activeName" >
         <el-tab-pane label="Popular" name="first">
           <HomePostsSection :posts="postsTrending"></HomePostsSection>
         </el-tab-pane>
@@ -18,7 +18,7 @@
           <HomeSideSection></HomeSideSection>
       </el-col>
     </el-row>
-  </div>
+  </div> 
 </template>
 <script>
 import HomePostsSection from '../posts/HomePostsSection.vue';
@@ -87,7 +87,7 @@ export default {
         }],
         postsLastest: [{
           _id: 1,
-          title: "A post for our reddit demo starting at 15 votes",
+          title: "A aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
           votes:[],
           _creator: "Salih",
           comments: [],
@@ -115,9 +115,7 @@ export default {
 
         },
         methods: {
-      handleClick(tab, event) {
-        console.log(tab, event);
-      },
+      
       loadPosts : function(){
         console.log("getting posts ....");
         axios.get('http://localhost:3000/api/posts')

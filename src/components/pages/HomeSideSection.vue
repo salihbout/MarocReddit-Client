@@ -3,13 +3,13 @@
         <div class="HomeSide">
                 <div>
                 <p>Popular Tags</p>
-                <el-tag class="SingleTag" v-for="(tag, index) in tags" v-bind:key="index">{{tag}}</el-tag>
+                <el-tag class="SingleTag" v-for="(tag, index) in tags" :key="index">{{tag}}</el-tag>
                 </div>
                 
         </div>
         <div class="HomeSide">
                 <p>Active Users</p>
-                 <router-link to="/"><el-tag class="SingleTag" v-for="(tag, index) in tags" v-bind:key="index">{{tag}}</el-tag></router-link>
+                 <router-link to="/"><el-tag class="SingleTag" v-for="(tag, index) in tags" :key="index">{{tag}}</el-tag></router-link>
                 </div>
       
     </div>
