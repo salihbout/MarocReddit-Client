@@ -24,7 +24,7 @@
                     </el-submenu>
                     <el-menu-item index="4">Chat</el-menu-item>
                 </el-col>
-                <el-col :xs="8" :sm="3" :md="4" :lg="4" :xl="4" class="loggedIn">
+                <el-col :xs="8" :sm="3" :md="4" :lg="4" :xl="4" class="loggedIn" v-if="isLoggedIn">
                     <el-popover
                         ref="popover"
                         placement="bottom"
@@ -41,10 +41,15 @@
 
                 </el-col>
                 <el-col  :xs="8" :sm="4" :md="4" :lg="4" :xl="4" >
-                    <div v-if="isLoggedIn" class="login">
+                    <div v-if="!isLoggedIn" class="login">
                         <router-link :to="{name: 'signup'}"  exact><el-button type="primary" round>Sign Up</el-button></router-link>
                         <router-link :to="{name: 'login'}"  exact><el-button round>Login</el-button></router-link>
                         
+                    </div>
+                    <div v-if="isLoggedIn">
+                        <p>{{storedToken}}</p>
+                          <el-button @click="logout" round>Logout</el-button>
+
                     </div>
                    
                 </el-col>
@@ -61,7 +66,6 @@ export default {
   data() {
     return {
       activeIndex: "1",
-      
       CategoriesMenuItems : [
           {name : "Technology", 
             link: "#"
@@ -92,9 +96,18 @@ export default {
 
 
   },
+  created(){
+      
+         console.log("token : "+localStorage.getItem("token"));
+         console.log("isLoggedIn : "+ this.isLoggedIn);
+      
+  },
   computed: {
     isLoggedIn() {
       return this.$store.getters.isLoggedIn;
+    }, 
+    storedToken() {
+        return localStorage.getItem("token");
     }
   }
 };

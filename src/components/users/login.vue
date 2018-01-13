@@ -35,6 +35,7 @@ export default {
     
      data() {
       return {
+          
         User: {
           username: '',
           password: ''
@@ -62,9 +63,10 @@ methods: {
                 password : this.User.password
             })
             .then(function (response) {
-                console.log(response);
-                this.$store.dispatch("login",response.token);
+                console.log(response.data.token);
+                this.$store.dispatch("login",response.data.token);
                 this.$router.push("/");
+                
 
             })
             .catch(function (error) {
@@ -76,11 +78,17 @@ methods: {
             console.log("Not valid !");
             return false;
           }
+        
+        
+
         });
       },
       resetForm(formName) {
         this.$refs[formName].resetFields();
       }
+    }, 
+    created(){
+        console.log(this.$store)
     }
 }
 </script>
