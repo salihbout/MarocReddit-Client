@@ -63,6 +63,9 @@ methods: {
             })
             .then(function (response) {
                 console.log(response);
+                this.$store.dispatch("login",response.token);
+                this.$router.push("/");
+
             })
             .catch(function (error) {
                  console.log(error);

@@ -6,6 +6,7 @@ import Element from 'element-ui'
 import VueRouter from 'vue-router'
 import 'element-ui/lib/theme-chalk/index.css'
 import {routes} from './router'
+import {store} from './store'
 
 
 
@@ -23,6 +24,7 @@ Vue.config.productionTip = false
 new Vue({
   el: '#app',
   router : router,
+  store ,
   render: function(h) {
     return h(App)
 }

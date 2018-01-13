@@ -1,8 +1,13 @@
+import Vue from 'vue';
+import Vuex from 'vuex';
+
 const LOGIN = "LOGIN";
 const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 const LOGOUT = "LOGOUT";
 
-const store = new Vuex.Store({
+Vue.use(Vuex);
+
+export default new Vuex.Store({
   state: {
     isLoggedIn: !!localStorage.getItem("token")
   },
@@ -19,11 +24,11 @@ const store = new Vuex.Store({
     }
   },
   actions: {
-    login({ commit }, creds) {
+    login({ commit }, token) {
       commit(LOGIN); // show spinner
       return new Promise(resolve => {
         setTimeout(() => {
-          localStorage.setItem("token", "JWT");
+          localStorage.setItem("token", token);
           commit(LOGIN_SUCCESS);
           resolve();
         }, 1000);
@@ -33,5 +38,14 @@ const store = new Vuex.Store({
       localStorage.removeItem("token");
       commit(LOGOUT);
     }
-  }
+  },
+  methods: {
+    ...Vuex.mapActions(['logout'])
+  },
+  getters: {
+    isLoggedIn: state => {
+      return state.isLoggedIn
+     } 
+    
+    }
 });  

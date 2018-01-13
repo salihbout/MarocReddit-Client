@@ -41,10 +41,12 @@
 
                 </el-col>
                 <el-col  :xs="8" :sm="4" :md="4" :lg="4" :xl="4" >
-                    <div class="login">
+                    <div v-if="isLoggedIn" class="login">
                         <router-link :to="{name: 'signup'}"  exact><el-button type="primary" round>Sign Up</el-button></router-link>
                         <router-link :to="{name: 'login'}"  exact><el-button round>Login</el-button></router-link>
+                        
                     </div>
+                   
                 </el-col>
             </el-menu>
        
@@ -59,6 +61,7 @@ export default {
   data() {
     return {
       activeIndex: "1",
+      
       CategoriesMenuItems : [
           {name : "Technology", 
             link: "#"
@@ -82,6 +85,16 @@ export default {
   methods: {
     handleSelect(key, keyPath) {
       console.log(key, keyPath);
+    },
+    logout() {
+     this.$store.dispatch('logout');
+    }
+
+
+  },
+  computed: {
+    isLoggedIn() {
+      return this.$store.getters.isLoggedIn;
     }
   }
 };
