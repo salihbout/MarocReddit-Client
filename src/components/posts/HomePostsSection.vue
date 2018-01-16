@@ -1,11 +1,11 @@
 <template>
-   <el-row >
+  
 
         <div >
                 <postCard v-for="(post,index) in posts"  v-bind:key="index" :post="post">
                 </postCard>
         </div>
-   </el-row>
+   
     
 </template>
 

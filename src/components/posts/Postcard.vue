@@ -2,7 +2,7 @@
 <div class="PostCardsWrapper">
  <div class="SinglePostCard" >
         <el-row>
-            <el-col :xs="3" :sm="3" :md="3" :lg="3" :xl="3" >
+            <el-col :xs="4" :sm="4" :md="4" :lg="4" :xl="4" >
                     
                     <el-button size="mini" round><i class="el-icon-arrow-up" @click="upvote"></i></el-button>
                     <span class="NumberVotes">{{ getUpvotesCount() }}</span>
@@ -14,7 +14,7 @@
                <el-tag size="small">{{printType(post)}}</el-tag>
                <router-link  :to="'/posts/'+ post._id">{{ post.title }}</router-link> 
             </el-col>
-            <el-col :xs="5" :sm="5" :md="5" :lg="5" :xl="5" class="PostStats">
+            <el-col :xs="4" :sm="4" :md="4" :lg="4" :xl="4" class="PostStats">
        
                  <i class="el-icon-view"></i>
                  <span>{{post.__v}}</span>
@@ -103,7 +103,6 @@ props: ['post'],
 
     background-color: white;
     border: 1px solid #F5F5F5;
-    width: 100%;
     padding-top: 10px;
     padding-bottom: 10px;
     padding-left: 20px;
@@ -113,7 +112,7 @@ props: ['post'],
 
 .NumberVotes{
     color: #409EFF;
-    font-size: 16px;
+    font-size: 18px;
     font-weight: bold;
     padding : 5px;
 }
