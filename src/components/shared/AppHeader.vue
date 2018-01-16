@@ -2,14 +2,14 @@
 <el-header>
     <el-row>
             <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
-                <el-col  :xs="8" :sm="6" :md="4" :lg="4" :xl="4" >   
+                <el-col  :xs="4" :sm="4" :md="4" :lg="4" :xl="4" >   
                     <el-menu-item >
                         <div class="logoSection">
                             <div id="logo">MarocReddit</div>
                         </div>
                     </el-menu-item>
                 </el-col>
-                <el-col  :xs="8" :sm="6" :md="12" :lg="12" :xl="12" >
+                <el-col  :xs="14" :sm="14" :md="14" :lg="14" :xl="14" >
                     <router-link to="/" active-class="active" exact><el-menu-item index="1">Home</el-menu-item></router-link>
                     <el-submenu index="2">
                         <template slot="title">Categories</template>
@@ -24,7 +24,7 @@
                     </el-submenu>
                     <el-menu-item index="4">Chat</el-menu-item>
                 </el-col>
-                <el-col :xs="8" :sm="3" :md="4" :lg="4" :xl="4" class="loggedIn" v-if="isLoggedIn">
+                <el-col :xs="8" :sm="4" :md="4" :lg="4" :xl="4" class="loggedIn" v-if="isLoggedIn">
                     <el-popover
                         ref="popover"
                         placement="bottom"
@@ -40,18 +40,32 @@
 
 
                 </el-col>
-                <el-col  :xs="8" :sm="4" :md="4" :lg="4" :xl="4" >
-                    <div v-if="!isLoggedIn" class="login">
+                <el-col v-if="!isLoggedIn" :xs="4" :sm="4" :md="4" :lg="4" :xl="4" >
+                    <div  class="login">
                         <router-link :to="{name: 'signup'}"  exact><el-button type="primary" round>Sign Up</el-button></router-link>
                         <router-link :to="{name: 'login'}"  exact><el-button round>Login</el-button></router-link>
                         
                     </div>
-                    <div v-if="isLoggedIn">
-                        <p>{{storedToken}}</p>
-                          <el-button @click="logout" round>Logout</el-button>
+                
+                </el-col>
+                
+                <el-col v-if="isLoggedIn" :xs="2" :sm="2" :md="2" :lg="2" :xl="2">
+                   <div  class="UserDropDown">
 
-                    </div>
-                   
+                        <el-dropdown>
+                    <span class="el-dropdown-link">
+                        Hello {{getUsernameFromStoredToken}}<i class="el-icon-arrow-down el-icon--right"></i>
+                    </span>
+                    <el-dropdown-menu slot="dropdown">
+                        <el-dropdown-item>Profile</el-dropdown-item>
+                        <el-dropdown-item>Settings</el-dropdown-item>
+                        <el-dropdown-item>Help</el-dropdown-item>
+                        <el-dropdown-item  divided><el-button @click="logout">Logout</el-button></el-dropdown-item>
+                    </el-dropdown-menu>
+                    </el-dropdown>
+
+                   </div>
+                    
                 </el-col>
             </el-menu>
        
@@ -62,6 +76,8 @@
 
 
 <script>
+import jwt from 'jwt-simple';
+import utils from '../../config/utils'
 export default {
   data() {
     return {
@@ -106,8 +122,13 @@ export default {
     isLoggedIn() {
       return this.$store.getters.isLoggedIn;
     }, 
-    storedToken() {
-        return localStorage.getItem("token");
+    getUsernameFromStoredToken() {
+        var token = utils.getToken(localStorage.getItem("token"));
+        console.log(token);
+        console.log(utils.Secret);
+        var decoded = jwt.decode(token, utils.Secret);
+        return decoded.username;
+        
     }
   }
 };
@@ -127,5 +148,11 @@ export default {
 
 #NotificationsBell {
     font-size: 20px;
+}
+
+
+.UserDropDown{
+
+    padding-top: 15px;
 }
 </style>

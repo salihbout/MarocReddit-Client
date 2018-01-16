@@ -1,5 +1,5 @@
 <template>
-   <el-row :gutter="20">
+   <el-row >
 
         <div >
                 <postCard v-for="(post,index) in posts"  v-bind:key="index" :post="post">

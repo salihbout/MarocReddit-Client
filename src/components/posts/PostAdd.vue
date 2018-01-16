@@ -43,11 +43,12 @@
 
 <script>
 import axios from 'axios';
+import jwt from 'jwt-simple';
+import utils from '../../config/utils'
 export default {
   
   data: function() {
     return {
-      UserToken: "JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1YTU5ZDlhOGExZTAwYTA4NTAwNWE0ODUiLCJ1c2VybmFtZSI6IlphaHJhIiwicGFzc3dvcmQiOiIkMmEkMTAkMWZqSEtjV0dBVTcwaXRIaTMwaThXT1UzNWhFU1pzRWs5VjJQUmVibnlWZ3k0S3lZQmNsV3kiLCJlbWFpbCI6InNhbGloQHNhLmNvbSIsIl9fdiI6MCwiY3JlYXRlZEF0IjoiMjAxOC0wMS0xM1QxMDowNDoyNC44NDdaIiwiaXNEZWxldGVkIjpmYWxzZSwiaXNTdWJzY3JpYmVkIjp0cnVlfQ.uV90F-XdQGdIsDUWmtA_sVK_JvYTSHZYkwtZ3D7VUAA",
       ShowForm : 'Text',
       ShowLink : 'false',
       Post: {
@@ -81,19 +82,26 @@ export default {
 
           if (valid) {
 
-          axios.post('http://localhost:3000/api/post',{
-                title : this.Post.title,
-                text : this.Post.text,
-                link : this.Post.link,
-                userId: '5a59d9a8a1e00a085005a485'
+        var token = utils.getToken(localStorage.getItem("token"));
+        console.log("Token from adding post : " + token);
+        console.log(utils.Secret);
+        var decoded = jwt.decode(token, utils.Secret);
+        
+        var post = {
+          title : this.Post.title,
+          text : this.Post.text,
+          link : this.Post.link,
+          userId: decoded._id,
+        }
 
-            },{
+          axios.post('http://localhost:3000/api/post',post,{
 
-              headers: {Authorization : this.UserToken }
+              headers: {Authorization : localStorage.getItem("token") }
 
             })
-            .then(function (response) {
+            .then((response)=> {
                 console.log(response);
+                this.$router.push("/");
             })
             .catch(function (error) {
                  console.log(error);

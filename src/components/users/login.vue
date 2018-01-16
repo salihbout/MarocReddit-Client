@@ -55,16 +55,16 @@ methods: {
         this.$refs[formName].validate((valid) => {
           if (valid) {
 
-            console.log(this.User.username);
-            console.log(this.User.password);
+            console.log("Username : " + this.User.username);
+            console.log("password : " +this.User.password);
 
             axios.post('http://localhost:3000/api/authenticate',{
                 username : this.User.username,
                 password : this.User.password
             })
-            .then(function (response) {
+            .then( (response) => {
                 console.log(response.data.token);
-                this.$store.dispatch("login",response.data.token);
+                this.updateStore(response.data.token);
                 this.$router.push("/");
                 
 
@@ -85,6 +85,10 @@ methods: {
       },
       resetForm(formName) {
         this.$refs[formName].resetFields();
+      }, 
+      updateStore(token){
+        this.$store.dispatch("login",token);
+
       }
     }, 
     created(){

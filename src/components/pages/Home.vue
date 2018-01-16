@@ -1,7 +1,8 @@
 <template>
+  <el-container>
    <div id="HomePageWrapper">
     <el-row :gutter="20">
-      <el-col :xs="24" :sm="24" :md="16" :lg="16" :xl="16" :offset="1">
+      <el-col :xs="18" :sm="18" :md="18" :lg="18" :xl="18" >
         <el-tabs v-model="activeName" >
         <el-tab-pane label="Popular" name="first">
           <HomePostsSection :posts="postsFetched"></HomePostsSection>
@@ -14,11 +15,12 @@
         </el-tab-pane>
       </el-tabs>
       </el-col>
-      <el-col :xs="24" :sm="6" :md="6" :lg="6" :xl="6" >
+      <el-col :xs="6" :sm="6" :md="6" :lg="6" :xl="6" >
           <HomeSideSection></HomeSideSection>
       </el-col>
     </el-row>
   </div> 
+  </el-container>
 </template>
 <script>
 import HomePostsSection from '../posts/HomePostsSection.vue';

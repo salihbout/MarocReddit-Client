@@ -108,7 +108,7 @@ props: ['post'],
     padding-bottom: 10px;
     padding-left: 20px;
     border-radius: 4px;
-    margin-left: 10px;
+    
 }
 
 .NumberVotes{
