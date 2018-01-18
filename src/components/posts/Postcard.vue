@@ -2,7 +2,7 @@
 <div class="PostCardsWrapper">
  <div class="SinglePostCard" >
         <el-row>
-            <el-col :xs="3" :sm="3" :md="3" :lg="3" :xl="3" >
+            <el-col :xs="4" :sm="4" :md="4" :lg="4" :xl="4" >
                     
                     <el-button size="mini" round><i class="el-icon-arrow-up" @click="upvote"></i></el-button>
                     <span class="NumberVotes">{{ getUpvotesCount() }}</span>
@@ -10,7 +10,7 @@
                     
                 
             </el-col>
-            <el-col :xs="17" :sm="17" :md="17" :lg="17" :xl="17" >
+            <el-col :xs="16" :sm="16" :md="16" :lg="16" :xl="16" >
                <el-tag size="small">{{printType(post)}}</el-tag>
                <router-link  :to="'/posts/'+ post._id">{{ post.title }}</router-link> 
             </el-col>
@@ -26,7 +26,7 @@
                 <i class="el-icon-edit" ></i>
                 <span>{{getCommentsCount()}} </span>
                </router-link>
-               <span> |  By :</span>
+                 | By :
                <router-link to="#" class="postCardLinks">
                  <span>  {{post._creator.username}} </span>
                </router-link>
@@ -105,7 +105,7 @@ props: ['post'],
     border: 1px solid #F5F5F5;
     padding-top: 10px;
     padding-bottom: 10px;
-    padding-left: 10px;
+    padding-left: 20px;
     border-radius: 4px;
     
 }
@@ -125,7 +125,7 @@ props: ['post'],
 }
 
 .PostStats span {
-  padding-right: 3px;
+  padding-right: 2px;
 }
 
 .postCardLinks {

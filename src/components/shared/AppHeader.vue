@@ -123,18 +123,11 @@ export default {
       return this.$store.getters.isLoggedIn;
     }, 
     getUsernameFromStoredToken() {
-        var completeToken = localStorage.getItem("token");
-        
-        if(this.$store.getters.isLoggedIn){
-        var token = utils.getToken(completeToken);
+        var token = utils.getToken(localStorage.getItem("token"));
         console.log(token);
         console.log(utils.Secret);
         var decoded = jwt.decode(token, utils.Secret);
         return decoded.username;
-        }else{
-            return null;
-        }
-        
         
     }
   }

@@ -1,82 +1,48 @@
 <template>
-<div class="pageWrapper">
-  <el-row :gutter="20">
-      <el-col :offset="2" :xs="24" :sm="18" :md="18" :lg="18" :xl="18">
-      <div class="PostWrapper">
-        <div class="PostHead">
-            <el-row :gutter="20"  > 
-              <el-col  :xs="24" :sm="3" :md="3" :lg="3" :xl="3" >
-                  <div class="Upvoter">       
-                  <el-button size="mini" round><i class="el-icon-arrow-up" @click="upvote"></i></el-button>
-                  <p class="NumberVotes">2</p>
-                  <el-button size="mini" round><i class="el-icon-arrow-down" @click="downvote"></i></el-button>
-                  </div>         
-                      
-              </el-col>
-              <div class="postDetails">
-                <el-col :xs="24" :sm="18" :md="18" :lg="18" :xl="18"  >
-                  <h1>{{SinglePost.title}}</h1> 
-                  
-                  <span><i class="el-icon-view"></i>  {{SinglePost.__v}} </span>
-                  
-                  <span> <i class="el-icon-edit" ></i> {{getCommentsCount()}}  comments</span>    
-                  <span> by : <router-link to="/">{{SinglePost._creator.username}}</router-link>  </span>
-                  
-                </el-col>
-              </div>
-            </el-row>
-          </div>
+  
+ <div class="PostWrapper">
+   <div class="PostHead">
+      <el-row :gutter="20"  > 
+        <el-col :offset="2" :xs="24" :sm="2" :md="2" :lg="2" :xl="2" >
+            <div class="Upvoter">       
+            <el-button size="mini" round><i class="el-icon-arrow-up" @click="upvote"></i></el-button>
+            <span class="NumberVotes">2</span>
+            <el-button size="mini" round><i class="el-icon-arrow-down" @click="downvote"></i></el-button>
+            </div>         
+                
+        </el-col>
+        <div class="postDetails">
+          <el-col :xs="24" :sm="18" :md="18" :lg="18" :xl="18"  >
+            <h1>{{post.title}}</h1> 
             
-            <div class="PostBody"  > 
-              <el-col :offset="3" :xs="24" :sm="18" :md="18" :lg="18" :xl="18"  >
-                <div class="textBody">
-                  <p>{{post.text}}</p>  
-                </div>   
-              </el-col>
-
-            </div>
-
-            <div class="CommentSection">
-          <el-row>
-            <el-col :offset="3" :xs="24" :sm="18" :md="18" :lg="18" :xl="18">
-              <h3>{{getCommentsCount()}}  Comments</h3>
-
-              <div v-for="(comment, index) in SinglePost._comments" v-bind:key="index" class="SingleComment">
-                <h5>{{comment._creator.username }}</h5>
-                <p>{{comment.createdAt }}</p>
-                <p>{{comment.text }}</p>
-              </div>
-
-              <el-form label-position="top" label-width="100px" ref="comment" :model="comment">
-                <el-form-item>
-                 <el-input
-                  type="textarea"
-                  :rows="4"
-                  placeholder="Leave a comment !"
-                  v-model="comment.textcomment">
-                </el-input>
-                </el-form-item>
-            <el-form-item>
-                          <el-button type="primary" @click="submitForm()">Submit</el-button>
-            </el-form-item>
-
-      </el-form>
-            </el-col>
-          </el-row>
+            <span><i class="el-icon-view"></i>  {{post.__v}} </span>
+            
+            <span> <i class="el-icon-edit" ></i> {{getCommentsCount()}}  comments</span>    
+            <span> by : <router-link to="/">{{post._creator.username}}</router-link>  </span>
+            
+          </el-col>
         </div>
-      </div>
-      
-    </el-col>
-  </el-row>
+      </el-row>
+    </div>
+      <br>
+    <div>
+      <el-row :gutter="20"  > 
+
+        <el-col  :offset="4" :xs="24" :sm="18" :md="18" :lg="18" :xl="18"  >
+          <p>{{post.text}}</p>     
+        </el-col>
+
+      </el-row>
+
+    </div>
 </div>
 </template>
 
 <script>
-import axios from "axios";
-import jwt from 'jwt-simple';
-import utils from '../../config/utils'
-export default {
-  data() {
+import axios from 'axios';
+export default  {
+  
+  data (){
     return {
       id: this.$route.params.id,
       SinglePost: null,
@@ -162,79 +128,46 @@ export default {
       this.upvoted = !this.upvoted;
       this.downvoted = false;
     },
-    downvote: function() {
+    downvote: function () {
       this.downvoted = !this.downvoted;
       this.upvoted = false;
     },
-    getUpvotesCount: function() {
+    getUpvotesCount : function(){
       return 2;
     },
-    getCommentsCount: function() {
-      if(this.post._comments){
-        return  Object.keys(this.post._comments).length;
-      }else{
-        return 0;
-      }
-      
+    getCommentsCount : function(){
+      return 3;
+    },
+
+
     }
-  }
-};
+}
 </script>
 
 <style scoped>
-.pageWrapper {
-  padding-top: 10px;
-}
+
+
+
 .PostWrapper {
 
-  background-color: white;
-  
+  padding-top:  30px;
+  background-color: rgba(250, 250, 250, 0.986);
+  font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
   height: 1000px;
-}
 
+}
 
 .Upvoter {
   padding-top: 30px;
-  text-align: center;
 }
 
 h1 {
   font-size: 30px;
 }
 
-
 .postDetails span {
+
   padding-right: 50px;
-  
+
 }
-
-.textBody {
-  background-color: rgba(240, 240, 240, 0.308);
-  padding: 5px;
-  line-height:130%;
-  text-align: justify;
-  border-bottom: 1px solid rgba(204, 204, 204, 0.384);
-  color: grey
-}
-
-
-.SingleComment{
-  background-color: rgba(240, 248, 255, 0.082);
-  padding: 5px;
-  border-bottom: 1px solid rgba(236, 236, 236, 0.781);
-}
-.SingleComment h5 {
-  color: rgb(87, 104, 104);
-   margin: 0;
-  
-}
-
-.SingleComment h5 span {
-  font-size: 10px;
-  color: rgb(134, 134, 134);
-  font-weight: lighter;
-  
-}
-
-
 </style>
