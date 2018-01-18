@@ -15,12 +15,12 @@
               </el-col>
               <div class="postDetails">
                 <el-col :xs="24" :sm="18" :md="18" :lg="18" :xl="18"  >
-                  <h1>{{post.title}}</h1> 
+                  <h1>{{SinglePost.title}}</h1> 
                   
-                  <span><i class="el-icon-view"></i>  {{post.__v}} </span>
+                  <span><i class="el-icon-view"></i>  {{SinglePost.__v}} </span>
                   
                   <span> <i class="el-icon-edit" ></i> {{getCommentsCount()}}  comments</span>    
-                  <span> by : <router-link to="/">{{post._creator.username}}</router-link>  </span>
+                  <span> by : <router-link to="/">{{SinglePost._creator.username}}</router-link>  </span>
                   
                 </el-col>
               </div>
@@ -41,7 +41,7 @@
             <el-col :offset="3" :xs="24" :sm="18" :md="18" :lg="18" :xl="18">
               <h3>{{getCommentsCount()}}  Comments</h3>
 
-              <div v-for="(comment, index) in post._comments" v-bind:key="index" class="SingleComment">
+              <div v-for="(comment, index) in SinglePost._comments" v-bind:key="index" class="SingleComment">
                 <h5>{{comment._creator.username }}</h5>
                 <p>{{comment.createdAt }}</p>
                 <p>{{comment.text }}</p>
@@ -79,31 +79,46 @@ export default {
   data() {
     return {
       id: this.$route.params.id,
-      post: {},
+      SinglePost: null,
       upvoted: false,
       downvoted: false,
       comment:{
         textcomment : ''
       }
+    },
+       {
+        rules: {
+          textcomment: [
+            { required: true, message: 'Please input a valid comment', trigger: 'blur' },
+            { min: 5, max: 140, message: 'Length should be 5 to 140 character', trigger: 'blur' }
+          ]
+
+      }
     };
   },
 
   created() {
-    this.fetchPost(this.id);
-    //fetch the post from API
+    
+    this.getPost();
+    
   },
+  watch: {
+  // call again the method if the route changes
+  '$route': 'getPost'
+},
 
   methods: {
-    fetchPost(id) {
-      console.log("fetching the post by ID ....");
-      axios
-        .get("http://localhost:3000/api/post/" + id)
+
+    getPost () {
+      console.log("fetching the post by ID .... " + this.$route.params.id);
+      axios.get("http://localhost:3000/api/post/" + this.$route.params.id)
         .then(response => {
-          this.post = response.data.post;
-          console.log(this.post);
+          console.log(response.data.post);
+          this.SinglePost = response.data.post;
+          
         })
-        .catch(error => {
-          console.log(error);
+        .catch(e => {
+          console.log(e);
         });
     },
     submitForm() {
@@ -127,7 +142,7 @@ export default {
               headers: {Authorization : localStorage.getItem("token") }
 
             })
-            .then((response)=> {
+            .then((response) => {
                 console.log(response);
                 this.$router.push("/posts/"+this.id);
             })
