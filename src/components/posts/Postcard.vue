@@ -55,7 +55,9 @@ props: ['post'],
       
     }
   },
+  created(){
 
+  },
   methods: {
     upvote: function () {
       
