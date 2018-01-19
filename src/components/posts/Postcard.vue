@@ -4,9 +4,9 @@
         <el-row>
             <el-col :xs="4" :sm="4" :md="4" :lg="4" :xl="4" >
                     
-                    <el-button size="mini" round><i class="el-icon-arrow-up" @click="upvote"></i></el-button>
-                    <span class="NumberVotes">{{ getUpvotesCount() }}</span>
-                    <el-button size="mini" round><i class="el-icon-arrow-down" @click="downvote"></i></el-button>
+                    <el-button v-bind:type="downvoteStyle" size="mini" round><i class="el-icon-arrow-down" @click="downvote"  v-bind:disabled="isUpDisabled"></i></el-button>
+                          <span class="NumberVotes">2</span>
+                    <el-button  v-bind:type="upvoteStyle" size="mini" round><i class="el-icon-arrow-up" @click="upvote" v-bind:disabled="isDownDisabled"></i></el-button>
                     
                 
             </el-col>
@@ -24,7 +24,7 @@
 
                <router-link to="#" class="postCardLinks" > 
                 <i class="el-icon-edit" ></i>
-                <span>{{getCommentsCount()}} </span>
+                <span>2 </span>
                </router-link>
                  | By :
                <router-link to="#" class="postCardLinks">
@@ -39,35 +39,88 @@
 </template>
 
 <script>
+import axios from 'axios';
+import jwt from 'jwt-simple';
+import utils from '../../config/utils'
 export default {
 props: ['post'],
  data: function () {
     return {
       upvoted: false,
       downvoted: false,
+      upvoteStyle : '',
+      downvoteStyle : '',
+      isUpDisabled : false,
+      isDownDisabled : false,
       
     }
   },
-  watch : {
-    '$router'(to, from){
-      thi
-    }
-  },
+
   methods: {
     upvote: function () {
-      this.upvoted = !this.upvoted;
-      this.downvoted = false;
+      
+      this.upvotePost(1)
+      if(this.upvoteStyle === 'success'){
+        this.upvoteStyle = '';
+        
+      }else{
+        this.upvoteStyle = 'success'
+      }
+      
+      
+      this.downvoteStyle = '';
+
     },
     downvote: function () {
-      this.downvoted = !this.downvoted;
-      this.upvoted = false;
+      this.upvotePost(-1)
+      if(this.downvoteStyle === 'danger'){
+        this.downvoteStyle = '';
+      }else{
+        this.downvoteStyle = 'danger'
+      }
+      
+      this.upvoteStyle = '';
     },
+
+    upvotePost : function(voteAmount){
+        if(voteAmount == 1){
+          this.isUpDisabled =true;
+        }else if(voteAmount == -1){
+          this.isDownDisabled =true;
+        }
+        
+        var token = utils.getToken(localStorage.getItem("token"));
+        if(token){
+          console.log("Token from adding post : " + token);
+          console.log(utils.Secret);
+          var decoded = jwt.decode(token, utils.Secret);
+        }else{
+          console.log("user not logged in ");
+          this.$router.push('/login');
+        }
+          
+
+        var upvoteToSave = {
+
+          userId : decoded._id,
+          postId : this.post._id,
+          amount : voteAmount
+
+        }
+
+        axios.post("http://localhost:3000/api/vote/", upvoteToSave).then((response)=>{
+          console.log(response);
+        }).catch((error) => {
+          console.log(error)
+        });
+
+        this.btnAble = '';
+    },
+
     getUpvotesCount : function(){
       return 2;
     },
-    getCommentsCount : function(){
-      return 3;
-    },
+
 
     printType : function(post){
       if(post.text =="" || typeof post.text =='undefined'){
@@ -76,17 +129,7 @@ props: ['post'],
         return 'Link';
       }
     },
-  computed: {
-    votes: function () {
-      if (this.upvoted) {
-        return this.post.votes + 1;
-      } else if (this.downvoted) {
-        return this.post.votes - 1;
-      } else {
-        return this.post.votes;
-      }
-    }
-  }
+
 
 }
 </script>
@@ -113,7 +156,7 @@ props: ['post'],
 .NumberVotes{
     color: #409EFF;
     font-size: 18px;
-    font-weight: bold;
+
     padding : 5px;
 }
 

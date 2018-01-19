@@ -27,7 +27,6 @@
       <br>
     <div>
       <el-row :gutter="20"  > 
-
         <el-col  :offset="4" :xs="24" :sm="18" :md="18" :lg="18" :xl="18"  >
           <p>{{post.text}}</p>     
         </el-col>
@@ -45,7 +44,7 @@ export default  {
   data (){
     return {
       id: this.$route.params.id,
-      SinglePost: null,
+      SinglePost: {},
       upvoted: false,
       downvoted: false,
       comment:{
@@ -68,10 +67,7 @@ export default  {
     this.getPost();
     
   },
-  watch: {
-  // call again the method if the route changes
-  '$route': 'getPost'
-},
+
 
   methods: {
 
@@ -79,8 +75,9 @@ export default  {
       console.log("fetching the post by ID .... " + this.$route.params.id);
       axios.get("http://localhost:3000/api/post/" + this.$route.params.id)
         .then(response => {
-          console.log(response.data.post);
+          
           this.SinglePost = response.data.post;
+          console.log(this.SinglePost);
           
         })
         .catch(e => {
