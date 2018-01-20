@@ -22,6 +22,7 @@
                   
                   <span> <i class="el-icon-edit" ></i> {{SinglePost._comments.length}}  comments</span>    
                   <span> by : <router-link to="/">{{SinglePost._creator.username}}</router-link>  </span>
+                  <span> <i class="el-icon-time" ></i> {{getTimeNow(SinglePost.createdAt)}}  </span>  
                   
                 </el-col>
               </div>
@@ -43,8 +44,8 @@
               <h3>{{SinglePost._comments.length}}  Comments</h3>
 
               <div v-for="(comment, index) in SinglePost._comments" v-bind:key="index" class="SingleComment">
-                <h5>{{comment._creator.username }}</h5>
-                <p>{{comment.createdAt }}</p>
+                <h5>{{comment._creator.username }}</h5><span>{{getTimeNow(comment.createdAt)}}</span>
+                
                 <p>{{comment.text }}</p>
               </div>
 
@@ -76,6 +77,7 @@
 
 <script>
 import axios from 'axios';
+import moment from 'moment';
 export default  {
   
   data (){
@@ -233,6 +235,10 @@ export default  {
         this.btnAble = '';
     },
 
+    getTimeNow(time){
+      return moment(time).fromNow();
+    }
+
 
     }
 }
@@ -276,10 +282,13 @@ h1 {
    margin: 0;
   
 }
-.SingleComment h5 span {
-  font-size: 10px;
+.SingleComment span {
+  font-size: 14px;
   color: rgb(134, 134, 134);
-  font-weight: lighter;
+  
+  float: right;
   
 }
+
+
 </style>
