@@ -11,8 +11,8 @@
                 
             </el-col>
             <el-col :xs="16" :sm="16" :md="16" :lg="16" :xl="16" >
-               <el-tag size="small">{{printType(post)}}</el-tag>
-               <router-link  :to="'/posts/'+ post._id">{{ post.title }}</router-link> 
+               <el-tag size="small">{{typePost}}</el-tag>
+               <router-link  :to="PostLink">{{ post.title }}</router-link> 
             </el-col>
             <el-col :xs="4" :sm="4" :md="4" :lg="4" :xl="4" class="PostStats">
        
@@ -52,36 +52,55 @@ props: ['post'],
       downvoteStyle : '',
       isUpDisabled : false,
       isDownDisabled : false,
+      isLink : false,
+      PostLink : '',
+      typePost : 'Post'
       
     }
   },
   created(){
+
+    if(this.post.text ==="" || typeof this.post.text ==='undefined'){
+        this.typePost = 'Link'
+        thisisLink : true
+        this.PostLink = this.post.link
+      }
+      
+    if(this.post.link ==="" || typeof this.post.link ==='undefined') {
+        this.typePost = 'Post'
+        this.PostLink = '/posts/'+ this.post._id
+      }
+
+      
+       
     
   },
   methods: {
     upvote: function () {
-      
-      this.upvotePost(1)
-      if(this.upvoteStyle === 'success'){
-        this.upvoteStyle = '';
+  
+      if(!this.upvoted){
         
+        this.upvoted = true
+        this.upvoteStyle = 'success';
+        this.upvotePost(1)
       }else{
-        this.upvoteStyle = 'success'
+        this.upvoteStyle = '';
+        this.upvoted = false
       }
       
-      
-      this.downvoteStyle = '';
 
     },
     downvote: function () {
-      this.upvotePost(-1)
-      if(this.downvoteStyle === 'danger'){
-        this.downvoteStyle = '';
+
+     if(!this.downvoted){
+        
+        this.downvoted = true
+        this.downvoteStyle = 'danger';
+        this.upvotePost(1)
       }else{
-        this.downvoteStyle = 'danger'
+        this.downvoteStyle = '';
+        this.downvoted = false
       }
-      
-      this.upvoteStyle = '';
     },
 
     upvotePost : function(voteAmount){
@@ -91,8 +110,10 @@ props: ['post'],
           this.isDownDisabled =true;
         }
         
-        var token = utils.getToken(localStorage.getItem("token"));
-        if(token){
+        var tokenStore = localStorage.getItem("token");
+        
+        if(tokenStore){
+          var token = utils.getToken(tokenStore);
           console.log("Token from adding post : " + token);
           console.log(utils.Secret);
           var decoded = jwt.decode(token, utils.Secret);
@@ -125,10 +146,7 @@ props: ['post'],
 
 
     printType : function(post){
-      if(post.text =="" || typeof post.text =='undefined'){
-        return 'Article';
-      }else {}
-        return 'Link';
+      
       }
     },
 

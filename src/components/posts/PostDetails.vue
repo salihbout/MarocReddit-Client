@@ -1,41 +1,78 @@
 <template>
-  
- <div class="PostWrapper">
-   <div class="PostHead">
-      <el-row :gutter="20"  > 
-        <el-col :offset="2" :xs="24" :sm="2" :md="2" :lg="2" :xl="2" >
-            <div class="Upvoter">       
-            <el-button size="mini" round><i class="el-icon-arrow-up" @click="upvote"></i></el-button>
-            <span class="NumberVotes">2</span>
-            <el-button size="mini" round><i class="el-icon-arrow-down" @click="downvote"></i></el-button>
-            </div>         
-                
-        </el-col>
-        <div class="postDetails">
-          <el-col :xs="24" :sm="18" :md="18" :lg="18" :xl="18"  >
-            <h1>{{post.title}}</h1> 
+<div class="pageWrapper">
+  <el-row :gutter="20">
+      <el-col :offset="2" :xs="24" :sm="18" :md="18" :lg="18" :xl="18">
+      <div class="PostWrapper">
+        <div class="PostHead">
+            <el-row :gutter="20"  > 
+              <el-col  :xs="24" :sm="3" :md="3" :lg="3" :xl="3" >
+                  <div class="Upvoter">       
+                  <el-button v-bind:type="downvoteStyle" size="mini" round><i class="el-icon-arrow-down" @click="downvote"  v-bind:disabled="isUpDisabled"></i></el-button>
+                  <span class="NumberVotes">2</span>
+                  <el-button  v-bind:type="upvoteStyle" size="mini" round><i class="el-icon-arrow-up" @click="upvote" v-bind:disabled="isDownDisabled"></i></el-button>
+               
+                  </div>         
+                      
+              </el-col>
+              <div class="postDetails">
+                <el-col :xs="24" :sm="18" :md="18" :lg="18" :xl="18"  >
+                  <h1>{{SinglePost.title}}</h1> 
+                  
+                  <span><i class="el-icon-view"></i>  {{SinglePost.__v}} </span>
+                  
+                  <span> <i class="el-icon-edit" ></i> {{SinglePost._comments.length}}  comments</span>    
+                  <span> by : <router-link to="/">{{SinglePost._creator.username}}</router-link>  </span>
+                  
+                </el-col>
+              </div>
+            </el-row>
+          </div>
             
-            <span><i class="el-icon-view"></i>  {{post.__v}} </span>
-            
-            <span> <i class="el-icon-edit" ></i> {{getCommentsCount()}}  comments</span>    
-            <span> by : <router-link to="/">{{post._creator.username}}</router-link>  </span>
-            
-          </el-col>
+            <div class="PostBody"  > 
+              <el-col :offset="3" :xs="24" :sm="18" :md="18" :lg="18" :xl="18"  >
+                <div class="textBody">
+                  <p>{{SinglePost.text}}</p>  
+                </div>   
+              </el-col>
+
+            </div>
+
+            <div class="CommentSection">
+          <el-row>
+            <el-col :offset="3" :xs="24" :sm="18" :md="18" :lg="18" :xl="18">
+              <h3>{{SinglePost._comments.length}}  Comments</h3>
+
+              <div v-for="(comment, index) in SinglePost._comments" v-bind:key="index" class="SingleComment">
+                <h5>{{comment._creator.username }}</h5>
+                <p>{{comment.createdAt }}</p>
+                <p>{{comment.text }}</p>
+              </div>
+
+              <el-form label-position="top" label-width="100px" ref="comment" :model="comment">
+                <el-form-item>
+                 <el-input
+                  type="textarea"
+                  :rows="4"
+                  placeholder="Leave a comment !"
+                  v-model="comment.textcomment">
+                </el-input>
+                </el-form-item>
+            <el-form-item>
+                          <el-button type="primary" @click="submitForm()">Submit</el-button>
+            </el-form-item>
+
+      </el-form>
+            </el-col>
+          </el-row>
         </div>
-      </el-row>
-    </div>
-      <br>
-    <div>
-      <el-row :gutter="20"  > 
-        <el-col  :offset="4" :xs="24" :sm="18" :md="18" :lg="18" :xl="18"  >
-          <p>{{post.text}}</p>     
-        </el-col>
-
-      </el-row>
-
-    </div>
+      </div>
+      
+    </el-col>
+  </el-row>
 </div>
 </template>
+
+
 
 <script>
 import axios from 'axios';
@@ -43,37 +80,49 @@ export default  {
   
   data (){
     return {
-      id: this.$route.params.id,
+      
       SinglePost: {},
-      upvoted: false,
-      downvoted: false,
       comment:{
         textcomment : ''
-      }
-    },
-       {
-        rules: {
+      },
+      upvoted: false,
+      downvoted: false,
+      upvoteStyle : '',
+      downvoteStyle : '',
+      isUpDisabled : false,
+      isDownDisabled : false,
+      rules: {
           textcomment: [
             { required: true, message: 'Please input a valid comment', trigger: 'blur' },
             { min: 5, max: 140, message: 'Length should be 5 to 140 character', trigger: 'blur' }
           ]
 
       }
-    };
+    }
   },
 
   created() {
     
-    this.getPost();
+    this.getPost(this.$route.params.id);
+      if(this.post.text ==="" || typeof this.post.text ==='undefined'){
+        this.typePost = 'Link'
+        thisisLink : true
+        this.PostLink = this.post.link
+      }
+      
+    if(this.post.link ==="" || typeof this.post.link ==='undefined') {
+        this.typePost = 'Post'
+        this.PostLink = '/posts/'+ this.post._id
+      }
     
   },
 
 
   methods: {
 
-    getPost () {
-      console.log("fetching the post by ID .... " + this.$route.params.id);
-      axios.get("http://localhost:3000/api/post/" + this.$route.params.id)
+    getPost (id) {
+      console.log("fetching the post by ID .... " + id);
+      axios.get("http://localhost:3000/api/post/" + id)
         .then(response => {
           
           this.SinglePost = response.data.post;
@@ -120,20 +169,68 @@ export default  {
           }
         });
       },
+      upvote: function () {
+  
+      if(!this.upvoted){
+        
+        this.upvoted = true
+        this.upvoteStyle = 'success';
+        this.upvotePost(1)
+      }else{
+        this.upvoteStyle = '';
+        this.upvoted = false
+      }
+      
 
-    upvote: function() {
-      this.upvoted = !this.upvoted;
-      this.downvoted = false;
     },
     downvote: function () {
-      this.downvoted = !this.downvoted;
-      this.upvoted = false;
+
+     if(!this.downvoted){
+        
+        this.downvoted = true
+        this.downvoteStyle = 'danger';
+        this.upvotePost(1)
+      }else{
+        this.downvoteStyle = '';
+        this.downvoted = false
+      }
     },
-    getUpvotesCount : function(){
-      return 2;
-    },
-    getCommentsCount : function(){
-      return 3;
+
+    upvotePost : function(voteAmount){
+        if(voteAmount == 1){
+          this.isUpDisabled =true;
+        }else if(voteAmount == -1){
+          this.isDownDisabled =true;
+        }
+        
+        var tokenStore = localStorage.getItem("token");
+        
+        if(tokenStore){
+          var token = utils.getToken(tokenStore);
+          console.log("Token from adding post : " + token);
+          console.log(utils.Secret);
+          var decoded = jwt.decode(token, utils.Secret);
+        }else{
+          console.log("user not logged in ");
+          this.$router.push('/login');
+        }
+          
+
+        var upvoteToSave = {
+
+          userId : decoded._id,
+          postId : this.post._id,
+          amount : voteAmount
+
+        }
+
+        axios.post("http://localhost:3000/api/vote/", upvoteToSave).then((response)=>{
+          console.log(response);
+        }).catch((error) => {
+          console.log(error)
+        });
+
+        this.btnAble = '';
     },
 
 
@@ -142,29 +239,47 @@ export default  {
 </script>
 
 <style scoped>
-
-
-
-.PostWrapper {
-
-  padding-top:  30px;
-  background-color: rgba(250, 250, 250, 0.986);
-  font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
-  height: 1000px;
-
+.pageWrapper {
+  padding-top: 10px;
 }
-
+.PostWrapper {
+  background-color: white;
+  
+  height: 1000px;
+}
 .Upvoter {
   padding-top: 30px;
+  text-align: center;
 }
-
 h1 {
   font-size: 30px;
 }
-
 .postDetails span {
-
   padding-right: 50px;
-
+  
+}
+.textBody {
+  background-color: rgba(240, 240, 240, 0.308);
+  padding: 5px;
+  line-height:130%;
+  text-align: justify;
+  border-bottom: 1px solid rgba(204, 204, 204, 0.384);
+  color: grey
+}
+.SingleComment{
+  background-color: rgba(240, 248, 255, 0.082);
+  padding: 5px;
+  border-bottom: 1px solid rgba(236, 236, 236, 0.781);
+}
+.SingleComment h5 {
+  color: rgb(87, 104, 104);
+   margin: 0;
+  
+}
+.SingleComment h5 span {
+  font-size: 10px;
+  color: rgb(134, 134, 134);
+  font-weight: lighter;
+  
 }
 </style>
