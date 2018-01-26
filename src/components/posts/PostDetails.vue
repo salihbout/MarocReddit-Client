@@ -78,6 +78,8 @@
 <script>
 import axios from 'axios';
 import moment from 'moment';
+import jwt from 'jwt-simple';
+import utils from '../../config/utils';
 export default  {
   
   data (){
@@ -146,8 +148,8 @@ export default  {
         var decoded = jwt.decode(token, utils.Secret);
         
         var comment = {
-          text : this.comment,
-          postId : this.id,
+          text : this.comment.textcomment,
+          postId : this.$route.params.id,
           userId: decoded._id,
         }
 
@@ -158,12 +160,12 @@ export default  {
             })
             .then((response) => {
                 console.log(response);
-                this.$router.push("/posts/"+this.id);
+                this.SinglePost._comments.push(comment);
             })
             .catch( (error) => {
                  console.log(error);
             });
-          this.post._comments.push(comment);
+          
 
           } else {
             console.log("Not valid !");
@@ -264,8 +266,13 @@ h1 {
   padding-right: 50px;
   
 }
+
+.PostBody{
+
+  margin-top:20px;
+}
 .textBody {
-  background-color: rgba(240, 240, 240, 0.308);
+  background-color: rgba(240, 240, 240, 0.075);
   padding: 5px;
   line-height:130%;
   text-align: justify;
