@@ -71,6 +71,7 @@ props: ['post'],
         this.PostLink = '/posts/'+ this.post._id
       }
 
+    
       
        
     

@@ -142,10 +142,17 @@ export default  {
 
           if (valid) {
 
-        var token = utils.getToken(localStorage.getItem("token"));
-        console.log("Token from adding post : " + token);
-        console.log(utils.Secret);
-        var decoded = jwt.decode(token, utils.Secret);
+        var tokenStore = localStorage.getItem("token");
+        
+        if(tokenStore){
+          var token = utils.getToken(tokenStore);
+          console.log("Token from adding post : " + token);
+          console.log(utils.Secret);
+          var decoded = jwt.decode(token, utils.Secret);
+        }else{
+          console.log("user not logged in ");
+          this.$router.push('/login');
+        }
         
         var comment = {
           text : this.comment.textcomment,
@@ -168,6 +175,7 @@ export default  {
           
 
           } else {
+
             console.log("Not valid !");
             return false;
           }
@@ -193,7 +201,7 @@ export default  {
         
         this.downvoted = true
         this.downvoteStyle = 'danger';
-        this.upvotePost(1)
+        this.upvotePost(-1)
       }else{
         this.downvoteStyle = '';
         this.downvoted = false
@@ -201,6 +209,7 @@ export default  {
     },
 
     upvotePost : function(voteAmount){
+
         if(voteAmount == 1){
           this.isUpDisabled =true;
         }else if(voteAmount == -1){
