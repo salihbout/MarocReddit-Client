@@ -22,7 +22,7 @@
                         <el-menu-item index="3-2">Technology</el-menu-item>
                         <el-menu-item index="3-3">Sport</el-menu-item>
                     </el-submenu>
-                    <el-menu-item index="4">Chat</el-menu-item>
+                     <router-link :to="{name: 'Chat'}" exact><el-menu-item index="4">Chat</el-menu-item></router-link>
                 </el-col>
                 <el-col :xs="8" :sm="4" :md="4" :lg="4" :xl="4" class="loggedIn" v-if="isLoggedIn">
                     <el-popover
