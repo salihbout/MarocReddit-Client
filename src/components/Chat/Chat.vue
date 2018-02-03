@@ -86,7 +86,7 @@ export default {
 .OnlineUsers {
     border: rgb(192, 192, 192) solid 1px;
     padding: 5px;
-    height: 1054px;
+    height: 810px;
     min-height: 100%;
 }
 .UserOnline{
