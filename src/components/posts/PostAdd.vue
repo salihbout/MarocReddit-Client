@@ -68,9 +68,17 @@ export default {
     };
 
   },
+  created() {
+    if(!this.$store.getters.isLoggedIn){
+      this.$router.push("/");
+    }
+
+  },
+
 
   methods : {
     submitForm() {
+      if(this.$store.getters.isLoggedIn){
         this.$refs['Post'].validate((valid) => {
           if(this.ShowForm === 'Text'){
             this.link =''
@@ -113,7 +121,13 @@ export default {
             return false;
           }
         });
+
+      }else{
+        this.$router.push("/");
+      }
       },
+
+
       onChange(){
         this.text =  '',
         this.link = ''

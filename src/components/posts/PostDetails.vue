@@ -8,7 +8,7 @@
               <el-col  :xs="24" :sm="3" :md="3" :lg="3" :xl="3" >
                   <div class="Upvoter">       
                   <el-button v-bind:type="downvoteStyle" size="mini" round><i class="el-icon-arrow-down" @click="downvote"  v-bind:disabled="isUpDisabled"></i></el-button>
-                  <span class="NumberVotes">2</span>
+                  <span class="NumberVotes">{{TotalUpvotes()}}</span>
                   <el-button  v-bind:type="upvoteStyle" size="mini" round><i class="el-icon-arrow-up" @click="upvote" v-bind:disabled="isDownDisabled"></i></el-button>
                
                   </div>         
@@ -124,6 +124,8 @@ export default  {
 
   methods: {
 
+
+
     getPost (id) {
       console.log("fetching the post by ID .... " + id);
       axios.get("http://localhost:3000/api/post/" + id)
@@ -137,7 +139,13 @@ export default  {
           console.log(e);
         });
     },
+
+    
     submitForm() {
+
+      if(this.$store.getters.isLoggedIn){
+
+      
         this.$refs['comment'].validate((valid) => {
 
           if (valid) {
@@ -180,6 +188,10 @@ export default  {
             return false;
           }
         });
+
+    }else{
+      this.$router.push("/");
+    }
       },
       upvote: function () {
   
@@ -248,7 +260,10 @@ export default  {
 
     getTimeNow(time){
       return moment(time).fromNow();
-    }
+    }, 
+    calculateUpvotes(){
+
+    },
 
 
     }
