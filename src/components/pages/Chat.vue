@@ -15,8 +15,8 @@
 
 
 <script>
-import Messages from './Messages.vue';
-import OnlineUsers from './OnlineUsers.vue';
+import Messages from '../Chat/Messages.vue';
+import OnlineUsers from '../Chat/OnlineUsers.vue';
 
 export default {
     components:{

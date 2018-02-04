@@ -1,28 +1,20 @@
 <template>
+<el-container>
 <el-header>
     <el-row>
             <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
                 <el-col  :xs="4" :sm="4" :md="4" :lg="4" :xl="4" >   
                     <el-menu-item >
                         <div class="logoSection">
-                            <div id="logo">MarocReddit</div>
+                            <div id="logo">AI Maroc</div>
                         </div>
                     </el-menu-item>
                 </el-col>
                 <el-col  :xs="14" :sm="14" :md="14" :lg="14" :xl="14" >
                     <router-link to="/" active-class="active" exact><el-menu-item index="1">Home</el-menu-item></router-link>
-                    <el-submenu index="2">
-                        <template slot="title">Categories</template>
-                        <el-menu-item index="2-1" v-for="(catItem, index) in CategoriesMenuItems" :key="index">{{catItem.name}}</el-menu-item>
-                        
-                    </el-submenu>
-                    <el-submenu index="3">
-                        <template slot="title">News</template>
-                        <el-menu-item index="3-1">Politics</el-menu-item>
-                        <el-menu-item index="3-2">Technology</el-menu-item>
-                        <el-menu-item index="3-3">Sport</el-menu-item>
-                    </el-submenu>
-                     <router-link :to="{name: 'Chat'}" exact><el-menu-item index="4">Chat</el-menu-item></router-link>
+                    <router-link to="/" exact><el-menu-item index="2">Post</el-menu-item></router-link>
+                    <router-link :to="{name: 'News'}" exact><el-menu-item index="3">News</el-menu-item></router-link>
+                    <router-link :to="{name: 'Chat'}" exact><el-menu-item index="4">Chat</el-menu-item></router-link>
                 </el-col>
                 <el-col :xs="8" :sm="4" :md="4" :lg="4" :xl="4" class="loggedIn" v-if="isLoggedIn">
                     <el-popover
@@ -72,6 +64,7 @@
     </el-row>
     
 </el-header>
+</el-container>
 </template>
 
 

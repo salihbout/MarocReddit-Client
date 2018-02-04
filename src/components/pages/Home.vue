@@ -24,7 +24,7 @@
 </template>
 <script>
 import HomePostsSection from '../posts/HomePostsSection.vue';
-import HomeSideSection from './HomeSideSection.vue';
+import HomeSideSection from '../various/HomeSideSection.vue';
 import axios from 'axios';
 export default {
   

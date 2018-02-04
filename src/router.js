@@ -5,7 +5,8 @@ import SignUp from './components/users/Signup.vue';
 import PostDetails from './components/posts/PostDetails.vue';
 import PostAdd from './components/posts/PostAdd.vue';
 import PostEdit from './components/posts/PostEdit.vue';
-import Chat from './components/chat/chat.vue';
+import Chat from './components/pages/chat.vue';
+import News from './components/pages/News.vue';
 
 export const  routes = [
   {
@@ -44,6 +45,11 @@ export const  routes = [
     path:'/chat', 
     component: Chat, 
     name: 'Chat',
+  },
+  {
+    path:'/news',
+    component: News,
+    name: 'News'
   }
 
 ];
