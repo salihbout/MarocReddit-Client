@@ -39,11 +39,12 @@ export default {
         this.loading  = true
         var today = moment().format("YYYY-MM-DD");
         console.log(today)
-        var query = '"<Artificial Intelligence"'
+        var query = '"AI"'
         var url = 'https://newsapi.org/v2/everything?' +
           'q='+query+'&' +
           'from='+today+'&' +
           'sortBy=popularity&' +
+          'language=en&'+
           'apiKey=c0d833f56cd14a1a87ae92917947250b';
 
         console.log(url)
