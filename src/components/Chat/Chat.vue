@@ -7,7 +7,7 @@
     
     <el-col :span="21">
 
-        <Messages></Messages>    
+        <Messages :Messages="Messages"></Messages>    
 
     </el-col>
 </el-row>
@@ -36,7 +36,31 @@ export default {
                     avatar : "https://static.pexels.com/photos/614810/pexels-photo-614810.jpeg"
                 }
             ],
-            Messages : [],
+            Messages : [
+                {
+                    type:"",
+                    action: "", 
+                    user : {
+
+                            username : "salih",
+                            avatar : "https://static.pexels.com/photos/614810/pexels-photo-614810.jpeg"
+                    },
+                    text : "Hello lorem upsooom ! ", 
+                    timestamp : new Date()
+            },
+             {
+                    type:"",
+                    action: "", 
+                    user : {
+                        
+                            username : "salih",
+                            avatar : "https://static.pexels.com/photos/614810/pexels-photo-614810.jpeg"
+                    },
+                    text : "Hello other ! ", 
+                    timestamp : new Date()
+            },
+
+            ],
             Message : {
                 type:"",
                 action: "", 

@@ -1,23 +1,25 @@
 <template>
 <div>
   <div class="Messages">
-                    <el-row v-for="o in 10" :key="o">
+                    <el-row v-for="(msg, index) in Messages" :key="index">
                         <div class="Message">
                             <el-col :span="1">
-                                <img class="ChatAvatar" src="https://static.pexels.com/users/avatars/7344/stefan-stefancik-817-medium.jpeg" alt="avatar">
+                                <img class="ChatAvatar" v-bind:src="msg.user.avatar" alt="avatar">
                             
                             </el-col>
                                 <el-col :span="23" class="MessageBody">
-                                    <span><i class="el-icon-time" ></i> 1d ago  </span>
-                                    <h5>{{'Username ' + o }} </h5>
-                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod earum et accusamus labore maxime nobis iusto vero recusandae, architecto minima dolores ducimus autem dolore sequi facilis perferendis, debitis ea facere.</p>
+                                    <span><i class="el-icon-time" ></i>{{ msg.timestamp}}  </span>
+                                    <h5>{{msg.user.username}} </h5>
+                                    <p>{{ msg.text}}</p>
                                 </el-col>
                                 
                         </div>
                     </el-row>
                 </div>
+
+
                 <div class="SendMessage">
-                 <el-form :model="MessageForm" :rules="rules" ref="ruleForm"  class="demo-ruleForm">
+                 <el-form   class="demo-ruleForm">
                      <el-row :gutter="20">
                             <el-col :span="22">
                                 <el-form-item prop="desc">
@@ -40,6 +42,13 @@
 <script>
 export default {
     props:  ['Messages'],
+    data (){
+        return {
+
+             message : "hi"
+            
+        }
+    }
   
 }
 </script>
