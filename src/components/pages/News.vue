@@ -35,14 +35,16 @@ export default {
             loading : '' 
         }
     },
-    created(){
-        this.loading  = true
-        var today = moment().format("YYYY-MM-DD");
-        console.log(today)
+
+    methods : {
+
+        fetchNews(date){
+
+         
         var query = '"AI"'
         var url = 'https://newsapi.org/v2/everything?' +
           'q='+query+'&' +
-          'from='+today+'&' +
+          'from='+date+'&' +
           'sortBy=popularity&' +
           'language=en&'+
           'apiKey=c0d833f56cd14a1a87ae92917947250b';
@@ -51,7 +53,7 @@ export default {
 
         axios.get(url)
           .then((response) => {
-            this.loading  = false
+          this.loading  = false
           this.NewsList = response.data.articles;
           console.log(this.NewsList)
            
@@ -59,6 +61,19 @@ export default {
           .catch((error) =>{
             console.log(error);
           });
+
+        }
+    },
+    created(){
+        this.loading  = true
+        var today = moment().format("YYYY-MM-DD");
+        console.log(today)
+        this.fetchNews(today)
+        if(this.NewsList.length === 0){
+            var yesterday = moment().subtract(1, 'day').format("YYYY-MM-DD");
+            console.log(yesterday)
+            this.fetchNews(yesterday)
+        }
 
     }
   
