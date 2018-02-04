@@ -8,7 +8,7 @@
               <el-col  :xs="24" :sm="3" :md="3" :lg="3" :xl="3" >
                   <div class="Upvoter">       
                   <el-button v-bind:type="downvoteStyle" size="mini" round><i class="el-icon-arrow-down" @click="downvote"  v-bind:disabled="isUpDisabled"></i></el-button>
-                  <span class="NumberVotes">{{TotalUpvotes()}}</span>
+                  <span class="NumberVotes">{{TotalUpvotes(SinglePost.upvotes)}}</span>
                   <el-button  v-bind:type="upvoteStyle" size="mini" round><i class="el-icon-arrow-up" @click="upvote" v-bind:disabled="isDownDisabled"></i></el-button>
                
                   </div>         
@@ -261,7 +261,7 @@ export default  {
     getTimeNow(time){
       return moment(time).fromNow();
     }, 
-    calculateUpvotes(){
+    Totalupvotes(upvotes){
 
     },
 
