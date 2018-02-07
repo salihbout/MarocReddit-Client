@@ -42,96 +42,87 @@
 </template>
 
 <script>
-import axios from 'axios';
-import jwt from 'jwt-simple';
-import utils from '../../config/utils'
+import axios from "axios";
+import jwt from "jwt-simple";
+import utils from "../../config/utils";
 export default {
-  
   data: function() {
     return {
-      ShowForm : 'Text',
-      ShowLink : 'false',
+      ShowForm: "Text",
+      ShowLink: false,
       Post: {
-          title: '',
-          text: '',
-          link:''
-        },
+        title: "",
+        text: "",
+        link: ""
+      },
 
-        rules: {
-          title: [
-            { required: true, message: 'Please enter a title for your post', trigger: 'blur' },
-          ],
-        }
-     
-              
-
+      rules: {
+        title: [
+          {
+            required: true,
+            message: "Please enter a title for your post",
+            trigger: "blur"
+          }
+        ]
+      }
     };
-
   },
   created() {
-    if(!this.$store.getters.isLoggedIn){
+    if (!this.$store.getters.isLoggedIn) {
       this.$router.push("/");
     }
-
   },
 
-
-  methods : {
+  methods: {
     submitForm() {
-      if(this.$store.getters.isLoggedIn){
-        this.$refs['Post'].validate((valid) => {
-          if(this.ShowForm === 'Text'){
-            this.link =''
+      if (this.$store.getters.isLoggedIn) {
+        this.$refs["Post"].validate(valid => {
+
+          if (this.ShowForm === "Text") {
+            this.link = "";
           }
 
-          if(this.ShowForm === 'Link'){
-            this.text =''
+          if (this.ShowForm === "Link") {
+            this.text = "";
           }
 
           if (valid) {
+            var token = utils.getToken(localStorage.getItem("token"));
+            console.log("Token from adding post : " + token);
+            console.log(utils.Secret);
+            var decoded = jwt.decode(token, utils.Secret);
 
-        var token = utils.getToken(localStorage.getItem("token"));
-        console.log("Token from adding post : " + token);
-        console.log(utils.Secret);
-        var decoded = jwt.decode(token, utils.Secret);
-        
-        var post = {
-          title : this.Post.title,
-          text : this.Post.text,
-          link : this.Post.link,
-          userId: decoded._id,
-        }
+            var post = {
+              title: this.Post.title,
+              text: this.Post.text,
+              link: this.Post.link,
+              userId: decoded._id
+            };
 
-          axios.post('http://localhost:3000/api/post',post,{
-
-              headers: {Authorization : localStorage.getItem("token") }
-
-            })
-            .then((response)=> {
+            axios
+              .post("http://localhost:3000/api/post", post, {
+                headers: { Authorization: localStorage.getItem("token") }
+              })
+              .then(response => {
                 console.log(response);
                 this.$router.push("/");
-            })
-            .catch(function (error) {
-                 console.log(error);
-            });
-
-
+              })
+              .catch(error => {
+                console.log(error);
+              });
           } else {
             console.log("Not valid !");
             return false;
           }
         });
-
-      }else{
+      } else {
         this.$router.push("/");
       }
-      },
+    },
 
-
-      onChange(){
-        this.text =  '',
-        this.link = ''
-      }
+    onChange() {
+      (this.text = ""), (this.link = "");
+    }
   }
 };
 </script>

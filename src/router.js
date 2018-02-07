@@ -6,6 +6,7 @@ import PostDetails from './components/posts/PostDetails.vue';
 import PostAdd from './components/posts/PostAdd.vue';
 import PostEdit from './components/posts/PostEdit.vue';
 import Chat from './components/pages/chat.vue';
+import ChatRoom from './components/pages/ChatRoom.vue';
 import News from './components/pages/News.vue';
 
 export const  routes = [
@@ -50,6 +51,12 @@ export const  routes = [
     path:'/news',
     component: News,
     name: 'News'
+  },
+  {
+    path : '/room/:id',
+    component: ChatRoom,
+    name : 'ChatRoom'
+
   }
 
 ];
