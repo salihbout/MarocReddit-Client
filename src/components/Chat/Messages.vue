@@ -65,11 +65,11 @@ export default {
 }
 
 .Messages {
-    border: rgb(192, 192, 192) solid 1px;
+    border: rgb(226, 226, 226) solid 1px;
     padding: 10px;
     overflow: auto;
     overflow-y: scroll;
-    height: 775px;
+    height: 700px;
     min-height: 100%;
 }
 

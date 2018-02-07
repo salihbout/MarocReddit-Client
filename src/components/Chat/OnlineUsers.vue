@@ -44,9 +44,9 @@ export default {
     color: blue;
 }
 .OnlineUsers {
-    border: rgb(192, 192, 192) solid 1px;
+    border: rgb(236, 236, 236) solid 1px;
     padding: 5px;
-    height: 810px;
+    
     min-height: 100%;
 }
 .UserOnline{

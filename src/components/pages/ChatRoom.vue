@@ -1,13 +1,16 @@
 <template>
   <el-row :gutter="20"  class="ChatWrapper">
-      
+    <div class="RoomInfos">
+        <h3>{{RoomData.title}}</h3>
+        <p>{{ RoomData.description}}</p> 
+    </div> 
     <el-col :span="3">
             <OnlineUsers :OnlineUsers="OnlineUsers"></OnlineUsers>
     </el-col> 
     
     <el-col :span="21">
-
-        <Messages :Messages="Messages"></Messages>    
+        
+        <Messages :Messages="RoomData._messages"></Messages>    
 
     </el-col>
 </el-row>
@@ -100,10 +103,8 @@ export default {
 
 <style scoped>
 
-
-.ChatWrapper {
-    margin-top: 15px;
-    position: relative;
+.RoomInfos {
+    text-align: center
 }
 
 
