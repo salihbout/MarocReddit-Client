@@ -3,7 +3,7 @@
       
     <el-col :span="3">
             <OnlineUsers :OnlineUsers="OnlineUsers"></OnlineUsers>
-    </el-col>
+    </el-col> 
     
     <el-col :span="21">
 
@@ -17,6 +17,7 @@
 <script>
 import Messages from '../Chat/Messages.vue';
 import OnlineUsers from '../Chat/OnlineUsers.vue';
+import axios from 'axios'
 
 export default {
     components:{
@@ -36,8 +37,9 @@ export default {
                     avatar : "https://static.pexels.com/photos/614810/pexels-photo-614810.jpeg"
                 }
             ],
-            Messages : [
-                {
+            RoomData : '', 
+           
+                /* {
                     type:"",
                     action: "", 
                     user : {
@@ -58,9 +60,9 @@ export default {
                     },
                     text : "Hello other ! ", 
                     timestamp : new Date()
-            },
+            }, */
 
-            ],
+            
             Message : {
                 type:"",
                 action: "", 
@@ -71,8 +73,25 @@ export default {
         }
     }, 
 
-    created() {
+    methods : {
+        fetchMessages(RoomId){
 
+            console.log("fetching the message by room ID .... " + RoomId);
+            axios.get("http://localhost:3000/api/chat/" + RoomId)
+            .then(response => {
+          
+            this.RoomData = response.data.room;
+            console.log(this.RoomData);
+          
+        })
+        .catch(e => {
+          console.log(e);
+        });
+        }
+    },
+
+    created() {
+        this.fetchMessages(this.$route.params.id)
     }
   
 }

@@ -1,7 +1,7 @@
 <template>
-  <el-row :gutter="20">
+  <el-row :gutter="20" class="RoomsWrapper">
       
-      <room-card></room-card>
+      <room-card v-for="(room, idx) in Rooms" :key="idx" :room ="room"></room-card>
     
 </el-row>
 </template>
@@ -28,7 +28,7 @@ export default {
     }, 
     methods : {
         fetchRooms(){
-            console.log('fetching posts ....');
+          console.log('fetching rooms ....');
           axios.get('http://localhost:3000/api/chat')
           .then((response) => {
           this.Rooms = response.data.rooms;
@@ -49,7 +49,10 @@ export default {
 
 <style scoped>
 
+.RoomsWrapper{
+    padding-top: 20px;
 
+}
 
 
 </style>
