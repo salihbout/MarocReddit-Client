@@ -3,13 +3,13 @@
   <div class="Messages">
                     <el-row v-for="(msg, index) in Messages" :key="index">
                         <div class="Message">
-                            <el-col :span="1">
+                           <!--  <el-col :span="1">
                                 <img class="ChatAvatar" v-bind:src="msg.user.avatar" alt="avatar">
                             
-                            </el-col>
-                                <el-col :span="23" class="MessageBody">
-                                    <span><i class="el-icon-time" ></i>{{ msg.timestamp}}  </span>
-                                    <h5>{{msg.user.username}} </h5>
+                            </el-col> -->
+                                <el-col :span="24" class="MessageBody">
+                                    <span><i class="el-icon-time" ></i>{{getTimeNow(msg.createdAt)}}  </span>
+                                    <h5>{{msg._creator.username}} </h5>
                                     <p>{{ msg.text}}</p>
                                 </el-col>
                                 
@@ -40,6 +40,7 @@
 
 
 <script>
+import moment from 'moment'
 export default {
     props:  ['Messages'],
     data (){
@@ -48,6 +49,12 @@ export default {
              message : "hi"
             
         }
+    },
+    methods : {
+
+        getTimeNow(time){
+        return moment(time).fromNow();
+            }, 
     }
   
 }

@@ -10,7 +10,7 @@
     
     <el-col :span="21">
         
-        <Messages :Messages="RoomData._messages"></Messages>    
+        <Messages :Messages="Messages"></Messages>    
 
     </el-col>
 </el-row>
@@ -18,31 +18,34 @@
 
 
 <script>
-import Messages from '../Chat/Messages.vue';
-import OnlineUsers from '../Chat/OnlineUsers.vue';
-import axios from 'axios'
+import Messages from "../Chat/Messages.vue";
+import OnlineUsers from "../Chat/OnlineUsers.vue";
+import axios from "axios";
 
 export default {
-    components:{
-        Messages : Messages,
-        OnlineUsers : OnlineUsers
-    },
+  components: {
+    Messages: Messages,
+    OnlineUsers: OnlineUsers
+  },
 
-    data() {
-        return {
-            OnlineUsers : [
-                {
-                    username : "salih",
-                    avatar : "https://static.pexels.com/photos/614810/pexels-photo-614810.jpeg"
-                },
-                {
-                    username : "Booout",
-                    avatar : "https://static.pexels.com/photos/614810/pexels-photo-614810.jpeg"
-                }
-            ],
-            RoomData : '', 
-           
-                /* {
+  data() {
+    return {
+      OnlineUsers: [
+        {
+          username: "salih",
+          avatar:
+            "https://static.pexels.com/photos/614810/pexels-photo-614810.jpeg"
+        },
+        {
+          username: "Booout",
+          avatar:
+            "https://static.pexels.com/photos/614810/pexels-photo-614810.jpeg"
+        }
+      ],
+      RoomData: "",
+      Messages: [],
+
+      /* {
                     type:"",
                     action: "", 
                     user : {
@@ -65,48 +68,49 @@ export default {
                     timestamp : new Date()
             }, */
 
-            
-            Message : {
-                type:"",
-                action: "", 
-                user : "",
-                text : "", 
-                timestamp : ""
-            }
-        }
-    }, 
+      Message: {
+        type: "",
+        action: "",
+        user: "",
+        text: "",
+        timestamp: ""
+      }
+    };
+  },
 
-    methods : {
-        fetchMessages(RoomId){
-
-            console.log("fetching the message by room ID .... " + RoomId);
-            axios.get("http://localhost:3000/api/chat/" + RoomId)
-            .then(response => {
-          
-            this.RoomData = response.data.room;
-            console.log(this.RoomData);
-          
+  methods: {
+    fetchMessagesAndDetails(RoomId) {
+      console.log("fetching the room details by ID .... " + RoomId);
+      axios.get("http://localhost:3000/api/chat/" + RoomId)
+        .then(response => {
+          this.RoomData = response.data.room;
+          console.log(this.RoomData);
         })
         .catch(e => {
           console.log(e);
         });
-        }
-    },
 
-    created() {
-        this.fetchMessages(this.$route.params.id)
+      console.log("fetching the messages by room ID .... " + RoomId);
+      axios.get("http://localhost:3000/api/chat/" + RoomId+ "/messages")
+        .then(response => {
+          this.Messages = response.data.messages;
+          console.log(this.Messages);
+        })
+        .catch(e => {
+          console.log(e);
+        });
     }
-  
-}
+  },
+
+  created() {
+    this.fetchMessagesAndDetails(this.$route.params.id);
+  }
+};
 </script>
 
 
 <style scoped>
-
 .RoomInfos {
-    text-align: center
+  text-align: center;
 }
-
-
-
 </style>
