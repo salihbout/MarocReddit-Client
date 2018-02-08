@@ -10,7 +10,7 @@
     
     <el-col :span="21">
         
-        <Messages :Messages="Messages"></Messages>    
+        <Messages :Messages="RoomData._messages"></Messages>    
 
     </el-col>
 </el-row>
@@ -43,7 +43,7 @@ export default {
         }
       ],
       RoomData: "",
-      Messages: [],
+      
 
       /* {
                     type:"",
@@ -85,16 +85,6 @@ export default {
         .then(response => {
           this.RoomData = response.data.room;
           console.log(this.RoomData);
-        })
-        .catch(e => {
-          console.log(e);
-        });
-
-      console.log("fetching the messages by room ID .... " + RoomId);
-      axios.get("http://localhost:3000/api/chat/" + RoomId+ "/messages")
-        .then(response => {
-          this.Messages = response.data.messages;
-          console.log(this.Messages);
         })
         .catch(e => {
           console.log(e);
