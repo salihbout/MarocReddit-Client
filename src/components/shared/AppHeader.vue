@@ -2,9 +2,9 @@
 <el-container>
 <el-header>
     <el-row>
-            <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
+            <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal">
                 <el-col  :xs="4" :sm="4" :md="4" :lg="4" :xl="4" >   
-                    <el-menu-item >
+                    <el-menu-item index="0" >
                         <div class="logoSection">
                             <div id="logo">AI Maroc</div>
                         </div>

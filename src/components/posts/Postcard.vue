@@ -146,10 +146,6 @@ props: ['post'],
       return 2;
     },
 
-
-    printType : function(post){
-      
-      }
     },
 
 

@@ -80,8 +80,9 @@ import axios from 'axios';
 import moment from 'moment';
 import jwt from 'jwt-simple';
 import utils from '../../config/utils';
+import {upvoteMixin} from '../../mixins/upvoteMixin';
 export default  {
-  
+  mixins : [upvoteMixin],
   data (){
     return {
       
@@ -89,12 +90,9 @@ export default  {
       comment:{
         textcomment : ''
       },
-      upvoted: false,
-      downvoted: false,
-      upvoteStyle : '',
-      downvoteStyle : '',
-      isUpDisabled : false,
-      isDownDisabled : false,
+
+
+
       rules: {
           textcomment: [
             { required: true, message: 'Please input a valid comment', trigger: 'blur' },
@@ -108,23 +106,12 @@ export default  {
   created() {
     
     this.getPost(this.$route.params.id);
-      if(this.post.text ==="" || typeof this.post.text ==='undefined'){
-        this.typePost = 'Link'
-        thisisLink : true
-        this.PostLink = this.post.link
-      }
       
-    if(this.post.link ==="" || typeof this.post.link ==='undefined') {
-        this.typePost = 'Post'
-        this.PostLink = '/posts/'+ this.post._id
-      }
     
   },
 
 
   methods: {
-
-
 
     getPost (id) {
       console.log("fetching the post by ID .... " + id);
@@ -181,7 +168,7 @@ export default  {
                  console.log(error);
             });
           
-
+ 
           } else {
 
             console.log("Not valid !");
@@ -192,70 +179,6 @@ export default  {
     }else{
       this.$router.push("/");
     }
-      },
-      upvote: function () {
-  
-      if(!this.upvoted){
-        
-        this.upvoted = true
-        this.upvoteStyle = 'success';
-        this.upvotePost(1)
-      }else{
-        this.upvoteStyle = '';
-        this.upvoted = false
-      }
-      
-
-    },
-    downvote: function () {
-
-     if(!this.downvoted){
-        
-        this.downvoted = true
-        this.downvoteStyle = 'danger';
-        this.upvotePost(-1)
-      }else{
-        this.downvoteStyle = '';
-        this.downvoted = false
-      }
-    },
-
-    upvotePost : function(voteAmount){
-
-        if(voteAmount == 1){
-          this.isUpDisabled =true;
-        }else if(voteAmount == -1){
-          this.isDownDisabled =true;
-        }
-        
-        var tokenStore = localStorage.getItem("token");
-        
-        if(tokenStore){
-          var token = utils.getToken(tokenStore);
-          console.log("Token from adding post : " + token);
-          console.log(utils.Secret);
-          var decoded = jwt.decode(token, utils.Secret);
-        }else{
-          console.log("user not logged in ");
-          this.$router.push('/login');
-        }
-          
-
-        var upvoteToSave = {
-
-          userId : decoded._id,
-          postId : this.post._id,
-          amount : voteAmount
-
-        }
-
-        axios.post("http://localhost:3000/api/vote/", upvoteToSave).then((response)=>{
-          console.log(response);
-        }).catch((error) => {
-          console.log(error)
-        });
-
-        this.btnAble = '';
     },
 
     getTimeNow(time){
