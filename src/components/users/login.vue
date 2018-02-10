@@ -64,8 +64,11 @@ methods: {
             })
             .then( (response) => {
                 console.log(response.data.token);
-                this.updateStore(response.data.token);
-                this.$router.push("/");
+                if(response.data.token && typeof response.data.token ==! 'undefined'){
+                    this.updateStore(response.data.token);
+                    this.$router.push("/");
+                }
+                
                 
 
             })
@@ -87,6 +90,7 @@ methods: {
         this.$refs[formName].resetFields();
       }, 
       updateStore(token){
+        
         this.$store.dispatch("login",token);
 
       }
