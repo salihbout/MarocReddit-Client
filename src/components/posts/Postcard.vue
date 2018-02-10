@@ -2,15 +2,15 @@
 <div class="PostCardsWrapper">
  <div class="SinglePostCard" >
         <el-row>
-            <el-col :xs="4" :sm="4" :md="4" :lg="4" :xl="4" >
+            <el-col :xs="3" :sm="3" :md="3" :lg="3" :xl="3" >
                     
                     <el-button v-bind:type="downvoteStyle" size="mini" round><i class="el-icon-arrow-down" @click="downvote"  v-bind:disabled="isUpDisabled"></i></el-button>
-                          <span class="NumberVotes">2</span>
+                          <span class="NumberVotes">{{totalAmountUpvotes}}</span>
                     <el-button  v-bind:type="upvoteStyle" size="mini" round><i class="el-icon-arrow-up" @click="upvote" v-bind:disabled="isDownDisabled"></i></el-button>
                     
                 
             </el-col>
-            <el-col :xs="16" :sm="16" :md="16" :lg="16" :xl="16" >
+            <el-col :xs="17" :sm="17" :md="17" :lg="17" :xl="17" >
                <el-tag size="small">{{typePost}}</el-tag>
                <router-link  :to="PostLink">{{ post.title }}</router-link> 
             </el-col>
@@ -42,16 +42,13 @@
 import axios from 'axios';
 import jwt from 'jwt-simple';
 import utils from '../../config/utils'
+import {upvoteMixin} from '../../mixins/upvoteMixin';
 export default {
 props: ['post'],
+mixins : [upvoteMixin],
  data: function () {
+   
     return {
-      upvoted: false,
-      downvoted: false,
-      upvoteStyle : '',
-      downvoteStyle : '',
-      isUpDisabled : false,
-      isDownDisabled : false,
       isLink : false,
       PostLink : '',
       typePost : 'Post'
@@ -71,6 +68,8 @@ props: ['post'],
         this.PostLink = '/posts/'+ this.post._id
       }
 
+
+
   
     
       
@@ -78,73 +77,8 @@ props: ['post'],
     
   },
   methods: {
-    upvote: function () {
-  
-      if(!this.upvoted){
-        
-        this.upvoted = true
-        this.upvoteStyle = 'success';
-        this.upvotePost(1)
-      }else{
-        this.upvoteStyle = '';
-        this.upvoted = false
-      }
-      
 
-    },
-    downvote: function () {
-
-     if(!this.downvoted){
-        
-        this.downvoted = true
-        this.downvoteStyle = 'danger';
-        this.upvotePost(1)
-      }else{
-        this.downvoteStyle = '';
-        this.downvoted = false
-      }
-    },
-
-    upvotePost : function(voteAmount){
-        if(voteAmount == 1){
-          this.isUpDisabled =true;
-        }else if(voteAmount == -1){
-          this.isDownDisabled =true;
-        }
-        
-        var tokenStore = localStorage.getItem("token");
-        
-        if(tokenStore){
-          var token = utils.getToken(tokenStore);
-          console.log("Token from adding post : " + token);
-          console.log(utils.Secret);
-          var decoded = jwt.decode(token, utils.Secret);
-        }else{
-          console.log("user not logged in ");
-          this.$router.push('/login');
-        }
-          
-
-        var upvoteToSave = {
-
-          userId : decoded._id,
-          postId : this.post._id,
-          amount : voteAmount
-
-        }
-
-        axios.post("http://localhost:3000/api/vote/", upvoteToSave).then((response)=>{
-          console.log(response);
-        }).catch((error) => {
-          console.log(error)
-        });
-
-        this.btnAble = '';
-    },
-
-    getUpvotesCount : function(){
-      return 2;
-    },
+   
 
     },
 

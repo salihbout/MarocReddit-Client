@@ -44,7 +44,7 @@ export default {
     },
       created() {
 
-          console.log('fetching posts ....');
+
           axios.get('http://localhost:3000/api/posts')
           .then((response) => {
           this.postsFetched = response.data.posts;

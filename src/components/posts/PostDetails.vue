@@ -8,7 +8,7 @@
               <el-col  :xs="24" :sm="3" :md="3" :lg="3" :xl="3" >
                   <div class="Upvoter">       
                   <el-button v-bind:type="downvoteStyle" size="mini" round><i class="el-icon-arrow-down" @click="downvote"  v-bind:disabled="isUpDisabled"></i></el-button>
-                  <span class="NumberVotes">8</span>
+                  <span class="NumberVotes">{{totalAmountUpvotes}}</span>
                   <el-button  v-bind:type="upvoteStyle" size="mini" round><i class="el-icon-arrow-up" @click="upvote" v-bind:disabled="isDownDisabled"></i></el-button>
                
                   </div>         
@@ -16,13 +16,13 @@
               </el-col>
               <div class="postDetails">
                 <el-col :xs="24" :sm="18" :md="18" :lg="18" :xl="18"  >
-                  <h1>{{SinglePost.title}}</h1> 
+                  <h1>{{post.title}}</h1> 
                   
-                  <span><i class="el-icon-view"></i>  {{SinglePost.__v}} </span>
+                  <span><i class="el-icon-view"></i>  {{post.__v}} </span>
                   
-                  <span> <i class="el-icon-edit" ></i> {{SinglePost._comments.length}}  comments</span>    
-                  <span> by : <router-link to="/">{{SinglePost._creator.username}}</router-link>  </span>
-                  <span> <i class="el-icon-time" ></i> {{getTimeNow(SinglePost.createdAt)}}  </span>  
+                  <span> <i class="el-icon-edit" ></i> {{post._comments.length}}  comments</span>    
+                  <span> by : <router-link to="/">{{post._creator.username}}</router-link>  </span>
+                  <span> <i class="el-icon-time" ></i> {{getTimeNow(post.createdAt)}}  </span>  
                   
                 </el-col>
               </div>
@@ -32,7 +32,7 @@
             <div class="PostBody"  > 
               <el-col :offset="3" :xs="24" :sm="18" :md="18" :lg="18" :xl="18"  >
                 <div class="textBody">
-                  <p>{{SinglePost.text}}</p>  
+                  <p>{{post.text}}</p>  
                 </div>   
               </el-col>
 
@@ -41,9 +41,9 @@
             <div class="CommentSection">
           <el-row>
             <el-col :offset="3" :xs="24" :sm="18" :md="18" :lg="18" :xl="18">
-              <h3>{{SinglePost._comments.length}}  Comments</h3>
+              <h3>{{post._comments.length}}  Comments</h3>
 
-              <div v-for="(comment, index) in SinglePost._comments" v-bind:key="index" class="SingleComment">
+              <div v-for="(comment, index) in post._comments" v-bind:key="index" class="SingleComment">
                 <h5>{{comment._creator.username }}</h5><span>{{getTimeNow(comment.createdAt)}}</span>
                 
                 <p>{{comment.text }}</p>
@@ -86,7 +86,7 @@ export default  {
   data (){
     return {
       
-      SinglePost: {},
+      post: {},
       comment:{
         textcomment : ''
       },
@@ -118,8 +118,8 @@ export default  {
       axios.get("http://localhost:3000/api/post/" + id)
         .then(response => {
           
-          this.SinglePost = response.data.post;
-          console.log(this.SinglePost);
+          this.post = response.data.post;
+         
           
         })
         .catch(e => {
@@ -162,7 +162,7 @@ export default  {
             })
             .then((response) => {
                 console.log(response);
-                this.SinglePost._comments.push(comment);
+                this.post._comments.push(comment);
             })
             .catch( (error) => {
                  console.log(error);
