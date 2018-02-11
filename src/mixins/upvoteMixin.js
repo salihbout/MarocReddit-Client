@@ -21,15 +21,14 @@ export const upvoteMixin = {
 
     var tokenStore = localStorage.getItem("token");
 
-    if (tokenStore && typeof tokenStore ==! 'undefined') {
+    if (tokenStore) {
       var token = utils.getToken(tokenStore);
-      console.log("Token from adding post : " + token);
-      console.log(utils.Secret);
       var decoded = jwt.decode(token, utils.Secret);
-      var id = decoded._id
+      var id = decoded._id;
+      console.log(id)
       this.totalAmountUpvotes = this.getUpvotesCountAndCurrentUpvote(this.post._upvotes, id);
     }else{
-      this.totalAmountUpvotes = this.getUpvotesCountAndCurrentUpvote(this.post._upvotes);
+      this.totalAmountUpvotes = this.getUpvotesCountAndCurrentUpvote(this.post._upvotes, 0);
     }  
     
   },
@@ -40,16 +39,16 @@ export const upvoteMixin = {
     getUpvotesCountAndCurrentUpvote: function (upvotes, userId) {
 
       let TotalAmount = 0;
-      upvotes.forEach((upvote) => {
+      upvotes.forEach( upvote => {
 
-        if(userId != null){
-          if (upvote._creator == userId) {
+        if(userId != 0){
+          if (upvote._creator === userId) {
             let CurrentUserUpvoted = upvote.amount
-            if (CurrentUserUpvoted == 1) {
+            if (CurrentUserUpvoted === 1) {
               this.upvoted = true
               this.upvoteStyle = 'success';
-            } else if (CurrentUserUpvoted == -1) {
-              this.upvoteStyle = '';
+            } else if (CurrentUserUpvoted === -1) {
+              this.downvoteStyle = 'danger';
               this.upvoted = false
             }  
           }

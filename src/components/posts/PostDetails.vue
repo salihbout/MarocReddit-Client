@@ -6,10 +6,11 @@
         <div class="PostHead">
             <el-row :gutter="20"  > 
               <el-col  :xs="24" :sm="3" :md="3" :lg="3" :xl="3" >
-                  <div class="Upvoter">       
-                  <el-button v-bind:type="downvoteStyle" size="mini" round><i class="el-icon-arrow-down" @click="downvote"  v-bind:disabled="isUpDisabled"></i></el-button>
-                  <span class="NumberVotes">{{totalAmountUpvotes}}</span>
-                  <el-button  v-bind:type="upvoteStyle" size="mini" round><i class="el-icon-arrow-up" @click="upvote" v-bind:disabled="isDownDisabled"></i></el-button>
+                  <div class="Upvoter">   
+
+                    <el-button v-bind:type="downvoteStyle" size="mini" round><i class="el-icon-arrow-down" @click="downvote"  v-bind:disabled="isUpDisabled"></i></el-button>
+                          <span class="NumberVotes">{{totalAmountUpvotes}}</span>
+                    <el-button  v-bind:type="upvoteStyle" size="mini" round><i class="el-icon-arrow-up" @click="upvote" v-bind:disabled="isDownDisabled"></i></el-button>
                
                   </div>         
                       
@@ -172,7 +173,7 @@ export default {
                 createdAt: Date()
             });
 
-            
+
                 this.comment.textcomment = '';
               })
               .catch(error => {
@@ -191,7 +192,7 @@ export default {
     getTimeNow(time) {
       return moment(time).fromNow();
     },
-    Totalupvotes(upvotes) {}
+    
   }
 };
 </script>
@@ -209,6 +210,14 @@ export default {
   padding-top: 30px;
   text-align: center;
 }
+
+.NumberVotes{
+    color: #409EFF;
+    font-size: 18px;
+
+    padding : 5px;
+}
+
 h1 {
   font-size: 30px;
 }
