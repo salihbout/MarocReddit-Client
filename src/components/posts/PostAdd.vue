@@ -77,7 +77,6 @@ export default {
     submitForm() {
       if (this.$store.getters.isLoggedIn) {
         this.$refs["Post"].validate(valid => {
-
           if (this.ShowForm === "Text") {
             this.link = "";
           }
@@ -88,24 +87,36 @@ export default {
 
           if (valid) {
             var token = utils.getToken(localStorage.getItem("token"));
-            console.log("Token from adding post : " + token);
-            console.log(utils.Secret);
-            var decoded = jwt.decode(token, utils.Secret);
 
-            var post = {
-              title: this.Post.title,
-              text: this.Post.text,
-              link: this.Post.link,
-              userId: decoded._id
-            };
+            if (token) {
+              var decoded = jwt.decode(token, utils.Secret);
 
+              var post = {
+                title: this.Post.title,
+                text: this.Post.text,
+                link: this.Post.link,
+                userId: decoded._id
+              };
+            }
+
+            
             axios
               .post("http://localhost:3000/api/post", post, {
                 headers: { Authorization: localStorage.getItem("token") }
               })
               .then(response => {
+
                 console.log(response);
-                this.$router.push("/");
+                if (response.data.success) {
+                  
+                  const newPostId = response.data.Postdata._id;
+                  this.$router.push({
+                    name: "PostShow",
+                    params: { id: newPostId }
+                  });
+                }else{
+                  this.router.push('/');
+                }
               })
               .catch(error => {
                 console.log(error);

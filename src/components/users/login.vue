@@ -64,7 +64,8 @@ methods: {
             })
             .then( (response) => {
                 console.log(response.data.token);
-                if(response.data.token && typeof response.data.token ==! 'undefined'){
+
+                if(response.data.token){
                     this.updateStore(response.data.token);
                     this.$router.push("/");
                 }

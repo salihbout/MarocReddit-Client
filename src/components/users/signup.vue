@@ -69,14 +69,16 @@ methods: {
         this.$refs[formName].validate((valid) => {
           if (valid) {
              axios.post('http://localhost:3000/api/signup',{
+
                 username : this.ruleForm.username,
                 password : this.ruleForm.password,
                 email : this.ruleForm.email,
                 isSubscribed :this.ruleForm.SubsChecked
-            }).then(function (response) {
+                
+            }).then( (response) => {
                 console.log(response);
             })
-            .catch(function (error) {
+            .catch( (error) => {
                  console.log(error);
             });
             

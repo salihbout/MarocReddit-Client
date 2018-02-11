@@ -76,121 +76,124 @@
 
 
 <script>
-import axios from 'axios';
-import moment from 'moment';
-import jwt from 'jwt-simple';
-import utils from '../../config/utils';
-import {upvoteMixin} from '../../mixins/upvoteMixin';
-export default  {
-  mixins : [upvoteMixin],
-  data (){
+import axios from "axios";
+import moment from "moment";
+import jwt from "jwt-simple";
+import utils from "../../config/utils";
+import { upvoteMixin } from "../../mixins/upvoteMixin";
+export default {
+  mixins: [upvoteMixin],
+  data() {
     return {
-      
       post: {},
-      comment:{
-        textcomment : ''
+      comment: {
+        textcomment: ""
       },
 
-
-
       rules: {
-          textcomment: [
-            { required: true, message: 'Please input a valid comment', trigger: 'blur' },
-            { min: 5, max: 140, message: 'Length should be 5 to 140 character', trigger: 'blur' }
-          ]
-
+        textcomment: [
+          {
+            required: true,
+            message: "Please input a valid comment",
+            trigger: "blur"
+          },
+          {
+            min: 5,
+            max: 140,
+            message: "Length should be 5 to 140 character",
+            trigger: "blur"
+          }
+        ]
       }
-    }
+    };
   },
 
   created() {
-    
     this.getPost(this.$route.params.id);
-      
-    
   },
 
-
   methods: {
-
-    getPost (id) {
+    getPost(id) {
       console.log("fetching the post by ID .... " + id);
-      axios.get("http://localhost:3000/api/post/" + id)
+      axios
+        .get("http://localhost:3000/api/post/" + id)
         .then(response => {
-          
           this.post = response.data.post;
-         
-          
         })
         .catch(e => {
           console.log(e);
         });
     },
 
-    
     submitForm() {
-
-      if(this.$store.getters.isLoggedIn){
-
-      
-        this.$refs['comment'].validate((valid) => {
-
+      if (this.$store.getters.isLoggedIn) {
+        this.$refs["comment"].validate(valid => {
           if (valid) {
+            var tokenStore = localStorage.getItem("token");
 
-        var tokenStore = localStorage.getItem("token");
-        
-        if(tokenStore){
-          var token = utils.getToken(tokenStore);
-          console.log("Token from adding post : " + token);
-          console.log(utils.Secret);
-          var decoded = jwt.decode(token, utils.Secret);
-        }else{
-          console.log("user not logged in ");
-          this.$router.push('/login');
-        }
-        
-        var comment = {
-          text : this.comment.textcomment,
-          postId : this.$route.params.id,
-          userId: decoded._id,
-        }
+            if (tokenStore) {
+              var token = utils.getToken(tokenStore);
+              console.log("Token from adding post : " + token);
+              console.log(utils.Secret);
+              var decoded = jwt.decode(token, utils.Secret);
+            } else {
+              console.log("user not logged in ");
+              this.$router.push("/login");
+            }
 
-          axios.post('http://localhost:3000/api/comment',comment,{
-
-              headers: {Authorization : localStorage.getItem("token") }
-
-            })
-            .then((response) => {
+            var commentToStore = {
+              text: this.comment.textcomment,
+              postId: this.$route.params.id,
+              userId: decoded._id
+            };
+            
+            axios
+              .post("http://localhost:3000/api/comment", commentToStore, {
+                headers: { Authorization: localStorage.getItem("token") }
+              })
+              .then(response => {
                 console.log(response);
-                this.post._comments.push(comment);
-            })
-            .catch( (error) => {
-                 console.log(error);
-            });
-          
- 
-          } else {
+/*                 let commentToShow = {
+                        text: this.comment.textcomment,
+                        _creator: {
+                              _id: decoded._id,
+                              username: decoded.username
+                          },
+                        createdAt: Date()
+                      }, */
 
+                this.post._comments.push({
+                
+                 text: this.comment.textcomment,
+                _creator: {
+                   
+                    username:  decoded.username
+                },
+                createdAt: Date()
+            });
+
+            
+                this.comment.textcomment = '';
+              })
+              .catch(error => {
+                console.log(error);
+              });
+          } else {
             console.log("Not valid !");
             return false;
           }
         });
-
-    }else{
-      this.$router.push("/");
-    }
+      } else {
+        this.$router.push("/");
+      }
     },
 
-    getTimeNow(time){
+    getTimeNow(time) {
       return moment(time).fromNow();
-    }, 
-    Totalupvotes(upvotes){
-
     },
-
-
-    }
-}
+    Totalupvotes(upvotes) {}
+  }
+};
 </script>
 
 <style scoped>
@@ -199,7 +202,7 @@ export default  {
 }
 .PostWrapper {
   background-color: white;
-  
+
   height: 1000px;
 }
 .Upvoter {
@@ -211,38 +214,32 @@ h1 {
 }
 .postDetails span {
   padding-right: 50px;
-  
 }
 
-.PostBody{
-
-  margin-top:20px;
+.PostBody {
+  margin-top: 20px;
 }
 .textBody {
   background-color: rgba(240, 240, 240, 0.075);
   padding: 5px;
-  line-height:130%;
+  line-height: 130%;
   text-align: justify;
   border-bottom: 1px solid rgba(204, 204, 204, 0.384);
-  color: grey
+  color: grey;
 }
-.SingleComment{
+.SingleComment {
   background-color: rgba(240, 248, 255, 0.082);
   padding: 5px;
   border-bottom: 1px solid rgba(236, 236, 236, 0.781);
 }
 .SingleComment h5 {
   color: rgb(87, 104, 104);
-   margin: 0;
-  
+  margin: 0;
 }
 .SingleComment span {
   font-size: 14px;
   color: rgb(134, 134, 134);
-  
+
   float: right;
-  
 }
-
-
 </style>
