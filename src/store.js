@@ -26,6 +26,7 @@ export const store =  new Vuex.Store({
   actions: {
     login({ commit }, token) {
       commit(LOGIN); // show spinner
+      
         setTimeout(function() {
           localStorage.setItem("token", token);
           commit(LOGIN_SUCCESS);

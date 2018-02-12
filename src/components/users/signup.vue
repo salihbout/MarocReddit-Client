@@ -66,19 +66,22 @@ export default {
 },
 methods: {
       submitForm(formName) {
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
-             axios.post('http://localhost:3000/api/signup',{
+        this.$refs[formName].validate(valid => {
+
+            const user = {
 
                 username : this.ruleForm.username,
                 password : this.ruleForm.password,
                 email : this.ruleForm.email,
                 isSubscribed :this.ruleForm.SubsChecked
-                
-            }).then( (response) => {
+
+            }
+            console.log(user)
+          if (valid) {
+             axios.post('http://localhost:3000/api/signup',user).then( response => {
                 console.log(response);
             })
-            .catch( (error) => {
+            .catch( error => {
                  console.log(error);
             });
             

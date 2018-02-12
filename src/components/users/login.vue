@@ -93,7 +93,7 @@ methods: {
       updateStore(token){
         
         this.$store.dispatch("login",token);
-
+        this.$router.push("/");
       }
     }, 
     created(){

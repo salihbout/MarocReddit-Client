@@ -4,13 +4,13 @@
         <h3>{{RoomData.title}}</h3>
         <p>{{ RoomData.description}}</p> 
     </div> 
-    <el-col :span="3">
+<!--     <el-col :span="3">
             <OnlineUsers :OnlineUsers="OnlineUsers"></OnlineUsers>
-    </el-col> 
+    </el-col>  -->
     
-    <el-col :span="21">
+    <el-col :span="24">
         
-        <Messages :Messages="RoomData._messages"></Messages>    
+        <Messages :Messages="RoomData._messages" :RoomId="RoomData._id"></Messages>    
 
     </el-col>
 </el-row>
