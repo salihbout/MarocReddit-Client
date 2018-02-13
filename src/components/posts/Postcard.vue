@@ -2,13 +2,8 @@
 <div class="PostCardsWrapper">
  <div class="SinglePostCard" >
         <el-row>
-            <el-col :xs="3" :sm="3" :md="3" :lg="3" :xl="3" >
-                    
-                    <el-button v-bind:type="downvoteStyle" size="mini" round><i class="el-icon-arrow-down" @click="downvote"  v-bind:disabled="isUpDisabled"></i></el-button>
-                          <span class="NumberVotes">{{totalAmountUpvotes}}</span>
-                    <el-button  v-bind:type="upvoteStyle" size="mini" round><i class="el-icon-arrow-up" @click="upvote" v-bind:disabled="isDownDisabled"></i></el-button>
-                    
-                
+            <el-col :xs="3" :sm="3" :md="3" :lg="3" :xl="3">
+                <upvoteElement :upvotes="post._upvotes"  :postID="post._id" ></upvoteElement>
             </el-col>
             <el-col :xs="17" :sm="17" :md="17" :lg="17" :xl="17" >
                <el-tag size="small">{{typePost}}</el-tag>
@@ -42,10 +37,14 @@
 import axios from 'axios';
 import jwt from 'jwt-simple';
 import utils from '../../config/utils'
-import {upvoteMixin} from '../../mixins/upvoteMixin';
+
+import upvoteElement from './upvote.vue'
 export default {
+  components:{
+    upvoteElement
+  },
 props: ['post'],
-mixins : [upvoteMixin],
+
  data: function () {
    
     return {
@@ -68,12 +67,6 @@ mixins : [upvoteMixin],
         this.PostLink = '/posts/'+ this.post._id
       }
 
-
-
-  
-    
-      
-       
     
   },
   methods: {

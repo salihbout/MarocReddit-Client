@@ -8,9 +8,7 @@
               <el-col  :xs="24" :sm="3" :md="3" :lg="3" :xl="3" >
                   <div class="Upvoter">   
 
-                    <el-button v-bind:type="downvoteStyle" size="mini" round><i class="el-icon-arrow-down" @click="downvote"  v-bind:disabled="isUpDisabled"></i></el-button>
-                          <span class="NumberVotes">{{totalAmountUpvotes}}</span>
-                    <el-button  v-bind:type="upvoteStyle" size="mini" round><i class="el-icon-arrow-up" @click="upvote" v-bind:disabled="isDownDisabled"></i></el-button>
+                    <upvoteElement :upvotes="post._upvotes" ></upvoteElement>
                
                   </div>         
                       
@@ -81,9 +79,11 @@ import axios from "axios";
 import moment from "moment";
 import jwt from "jwt-simple";
 import utils from "../../config/utils";
-import { upvoteMixin } from "../../mixins/upvoteMixin";
+import upvoteElement from './upvote.vue'
 export default {
-  mixins: [upvoteMixin],
+ components:{
+    upvoteElement
+  },
   data() {
     return {
       post: {},

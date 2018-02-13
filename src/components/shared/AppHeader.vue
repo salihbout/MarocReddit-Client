@@ -25,9 +25,7 @@
                     </el-popover>
                      <router-link :to="{name: 'PostAdd'}"  ><el-button icon="el-icon-edit" type="primary" v-popover:popover>Add a Post</el-button></router-link>
                     <span></span>
-                    <el-badge :value="15" is-dot class="item">
-                        <i id="NotificationsBell"  class="el-icon-bell"></i>
-                    </el-badge>
+                    
 
 
                 </el-col>
