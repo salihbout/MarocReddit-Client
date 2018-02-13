@@ -25,7 +25,7 @@ export const upvoteMixin = {
       var token = utils.getToken(tokenStore);
       var decoded = jwt.decode(token, utils.Secret);
       var id = decoded._id;
-      console.log(id)
+      
       this.totalAmountUpvotes = this.getUpvotesCountAndCurrentUpvote(this.post._upvotes, id);
     }else{
       this.totalAmountUpvotes = this.getUpvotesCountAndCurrentUpvote(this.post._upvotes, 0);
@@ -100,8 +100,6 @@ export const upvoteMixin = {
 
       if (tokenStore) {
         var token = utils.getToken(tokenStore);
-        console.log("Token from adding post : " + token);
-        console.log(utils.Secret);
         var decoded = jwt.decode(token, utils.Secret);
       } else {
         console.log("user not logged in ");

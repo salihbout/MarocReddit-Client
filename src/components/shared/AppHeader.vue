@@ -12,7 +12,6 @@
                 </el-col>
                 <el-col  :xs="14" :sm="14" :md="14" :lg="14" :xl="14" >
                     <router-link to="/" active-class="active" exact><el-menu-item index="1">Home</el-menu-item></router-link>
-                    <router-link to="/" exact><el-menu-item index="2">Post</el-menu-item></router-link>
                     <router-link :to="{name: 'News'}" exact><el-menu-item index="3">News</el-menu-item></router-link>
                     <router-link :to="{name: 'Chat'}" exact><el-menu-item index="4">Chat</el-menu-item></router-link>
                 </el-col>

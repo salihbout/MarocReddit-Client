@@ -7,8 +7,8 @@
         <el-tab-pane label="Popular" name="first">
           <HomePostsSection :posts="postsFetched"></HomePostsSection>
         </el-tab-pane>
-        <el-tab-pane label="Trending" name="second">
-          <HomePostsSection :posts="postsFetched"></HomePostsSection>
+        <el-tab-pane label="Trending" name="second"> 
+          <HomePostsSection :posts="postsTrend"></HomePostsSection>
         </el-tab-pane>
         <el-tab-pane label="Latest" name="third">
           <HomePostsSection :posts="postsFetched"></HomePostsSection>
@@ -26,6 +26,8 @@
 import HomePostsSection from '../posts/HomePostsSection.vue';
 import HomeSideSection from '../various/HomeSideSection.vue';
 import axios from 'axios';
+
+
 export default {
   
   name: 'Home',
@@ -37,18 +39,32 @@ export default {
       return {
         activeName: 'first',
         postsFetched :  {} ,
+        poststrend : {}
         
     }
 
-
     },
+
+    computed : {
+
+    TrendingPost() {
+      let posts = this.postsFetched;
+      return posts.sort((a, b) => b._upvotes.length - a._upvotes.length);
+    }
+  },
+
       created() {
 
 
           axios.get('http://localhost:3000/api/posts')
           .then((response) => {
-          this.postsFetched = response.data.posts;
+          let posts = response.data.posts;
           
+          console.log(posts)
+          this.postsFetched = posts
+
+          this.postsTrend = posts.sort((a, b) => b.title > a.title)
+          console.log(this.postsTrend)
            
           })
           .catch((error) =>{

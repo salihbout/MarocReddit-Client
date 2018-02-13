@@ -19,10 +19,10 @@
 
 
                 <div class="SendMessage">
-                 <el-form ref="messageForm" :rules="rules"  class="demo-ruleForm">
+                 <el-form ref="messageForm"   class="demo-ruleForm">
                      <el-row :gutter="20">
                             <el-col :span="22">
-                                <el-form-item prop="messageField">
+                                <el-form-item >
                                     <el-input type="textarea" v-model="MessageInputForm.message" class="MessageInput"></el-input>
                                 </el-form-item>
                             </el-col>
@@ -42,64 +42,63 @@
 <script>
 import moment from "moment";
 import axios from "axios";
+import jwt from "jwt-simple";
+import utils from "../../config/utils";
+import io from "socket.io-client";
+
 export default {
   props: ["Messages", "RoomId"],
   data() {
     return {
-      MessageInputForm : {
-          message: ""
-          
-          },
-
-      rules: {
-        messageField: [
-          {
-            required: true,
-            message: "Please enter a message",
-            trigger: "blur"
-          }
-        ]
+      MessageInputForm: {
+        message: ""
       }
     };
   },
+  created() {
+    var socket = io("http://localhost:3000/");
+    socket.on("newMessage", newMessage =>{
+      console.log(newMessage);
+      this.Messages.push(newMessage);
+    });
+    
+  },
   methods: {
     submitForm() {
-     
       if (this.$store.getters.isLoggedIn) {
-        this.$refs['messageForm'].validate((valid) => {
-          if (valid) {
-            var token = utils.getToken(localStorage.getItem("token"));
+        console.log(this.MessageInputForm.message.length);
+        if (this.MessageInputForm.message.length > 0) {
+          var token = utils.getToken(localStorage.getItem("token"));
 
-            if (token) {
-              const decoded = jwt.decode(token, utils.Secret);
-               console.log(this.MessageInputForm.message);
-              axios
-                .post("http://localhost:3000/api/message", {
-                  message: this.messageInputField,
-                  userId: decoded._id,
-                  roomId: this.RoomId
-                })
-                .then(response => {
-                  if (response.data.success) {
-                    this.Messages.push({
-                      text: this.message,
-                      _creator: {
-                        username: decoded.username
-                      },
-                      createdAt: Date()
-                    });
-                    console.log('message sent !')    
-                    this.message = "";
-                  }else{
-                      console.log('Error sending your message...')
-                  }
-                })
-                .catch(function(error) {
-                  console.log(error);
-                });
-            }
+          if (token) {
+            const decoded = jwt.decode(token, utils.Secret);
+            console.log(this.MessageInputForm.message);
+
+            const messageToStore = {
+              text: this.MessageInputForm.message,
+              userId: decoded._id,
+              roomId: this.RoomId
+            };
+            console.log(messageToStore);
+
+            axios
+              .post("http://localhost:3000/api/message", messageToStore)
+              .then(response => {
+                console.log(response);
+                if (response.data.success) {
+                  console.log("message sent !");
+                  this.MessageInputForm.message = "";
+                } else {
+                  console.log("Error sending your message...");
+                }
+              })
+              .catch(error => {
+                console.log(error.toString());
+              });
           }
-        });
+        } else {
+          console.log("type something ....");
+        }
       } else {
         this.$router.push("/login");
       }
