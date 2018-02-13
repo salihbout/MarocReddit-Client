@@ -75,6 +75,7 @@ export default {
 
         this.upvoted = true
         this.upvoteStyle = 'success';
+        this.downvoteStyle = '';
         this.upvotePost(1)
       } else {
         this.upvoteStyle = '';
@@ -89,7 +90,8 @@ export default {
 
         this.downvoted = true
         this.downvoteStyle = 'danger';
-        this.upvotePost(1)
+        this.upvoteStyle = '';
+        this.upvotePost(-1)
       } else {
         this.downvoteStyle = '';
         this.downvoted = false

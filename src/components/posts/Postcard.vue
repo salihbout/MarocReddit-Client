@@ -3,7 +3,7 @@
  <div class="SinglePostCard" >
         <el-row>
             <el-col :xs="3" :sm="3" :md="3" :lg="3" :xl="3">
-                <upvoteElement :upvotes="post._upvotes"  :postID="post._id" ></upvoteElement>
+                <upvoteElement :upvotes="post._upvotes"  :postId="post._id" ></upvoteElement>
             </el-col>
             <el-col :xs="17" :sm="17" :md="17" :lg="17" :xl="17" >
                <el-tag size="small">{{typePost}}</el-tag>
