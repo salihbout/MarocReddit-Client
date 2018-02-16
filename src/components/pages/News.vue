@@ -9,7 +9,11 @@
         
         <div class="NewsSection">
             <el-row :gutter="20">
-                <NewsCard v-for="(article, index) in NewsList" :article="article" :key="index" ></NewsCard>  
+                <NewsCard 
+                    v-for="(article, index) in NewsList" 
+                    :article="article" 
+                    :key="index" 
+                />
             </el-row>
           
         </div>

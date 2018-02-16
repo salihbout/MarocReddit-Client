@@ -7,10 +7,9 @@
 </template>
 
 <script>
-
-import jwt from 'jwt-simple';
-import utils from '../../config/utils'
-import axios from 'axios'
+import jwt from "jwt-simple";
+import utils from "../../config/utils";
+import axios from "axios";
 export default {
   props: ["upvotes", "postId"],
   data() {
@@ -25,39 +24,35 @@ export default {
     };
   },
   created() {
+    if (this.$store.getters.isLoggedIn) {
+      var id = $this.store.getters.userId;
 
-    var tokenStore = localStorage.getItem("token");
-
-    if (tokenStore) {
-      var token = utils.getToken(tokenStore);
-      var decoded = jwt.decode(token, utils.Secret);
-      var id = decoded._id;
-      
-      this.totalAmountUpvotes = this.getUpvotesCountAndCurrentUpvote(this.upvotes, id);
-    }else{
-      this.totalAmountUpvotes = this.getUpvotesCountAndCurrentUpvote(this.upvotes, 0);
-    }  
-    
+      this.totalAmountUpvotes = this.getUpvotesCountAndCurrentUpvote(
+        this.upvotes,
+        id
+      );
+    } else {
+      this.totalAmountUpvotes = this.getUpvotesCountAndCurrentUpvote(
+        this.upvotes,
+        0
+      );
+    }
   },
 
-  
   methods: {
-
-    getUpvotesCountAndCurrentUpvote: function (upvotes, userId) {
-
+    getUpvotesCountAndCurrentUpvote: function(upvotes, userId) {
       let TotalAmount = 0;
-      upvotes.forEach( upvote => {
-
-        if(userId != 0){
+      upvotes.forEach(upvote => {
+        if (userId != 0) {
           if (upvote._creator === userId) {
-            let CurrentUserUpvoted = upvote.amount
+            let CurrentUserUpvoted = upvote.amount;
             if (CurrentUserUpvoted === 1) {
-              this.upvoted = true
-              this.upvoteStyle = 'success';
+              this.upvoted = true;
+              this.upvoteStyle = "success";
             } else if (CurrentUserUpvoted === -1) {
-              this.downvoteStyle = 'danger';
-              this.upvoted = false
-            }  
+              this.downvoteStyle = "danger";
+              this.upvoted = false;
+            }
           }
         }
 
@@ -67,72 +62,58 @@ export default {
       return TotalAmount;
     },
 
-
-
-    upvote: function () {
-
+    upvote: function() {
       if (!this.upvoted) {
-
-        this.upvoted = true
-        this.upvoteStyle = 'success';
-        this.downvoteStyle = '';
-        this.upvotePost(1)
+        this.upvoted = true;
+        this.upvoteStyle = "success";
+        this.downvoteStyle = "";
+        this.upvotePost(1);
       } else {
-        this.upvoteStyle = '';
-        this.upvoted = false
+        this.upvoteStyle = "";
+        this.upvoted = false;
       }
-
-
     },
-    downvote: function () {
-
+    downvote: function() {
       if (!this.downvoted) {
-
-        this.downvoted = true
-        this.downvoteStyle = 'danger';
-        this.upvoteStyle = '';
-        this.upvotePost(-1)
+        this.downvoted = true;
+        this.downvoteStyle = "danger";
+        this.upvoteStyle = "";
+        this.upvotePost(-1);
       } else {
-        this.downvoteStyle = '';
-        this.downvoted = false
+        this.downvoteStyle = "";
+        this.downvoted = false;
       }
     },
 
-    upvotePost: function (voteAmount) {
-      if (voteAmount == 1) {
-        this.isUpDisabled = true;
-      } else if (voteAmount == -1) {
-        this.isDownDisabled = true;
-      }
-
-      var tokenStore = localStorage.getItem("token");
-
-      if (tokenStore) {
-        var token = utils.getToken(tokenStore);
-        var decoded = jwt.decode(token, utils.Secret);
-      } else {
+    upvotePost: function(voteAmount) {
+      if (!this.$store.getters.isLoggedIn) {
         console.log("user not logged in ");
-        this.$router.push('/login');
+        this.$router.push("/login");
+      } else {
+        if (voteAmount == 1) {
+          this.isUpDisabled = true;
+        } else if (voteAmount == -1) {
+          this.isDownDisabled = true;
+        }
+
+        var upvoteToSave = {
+          userId: decoded._id,
+          postId: this.postId,
+          amount: voteAmount
+        };
+
+        axios
+          .post("http://localhost:3000/api/vote/", upvoteToSave)
+          .then(response => {
+            console.log(response);
+          })
+          .catch(error => {
+            console.log(error);
+          });
+
+        this.btnAble = "";
       }
-
-
-      var upvoteToSave = {
-
-        userId: decoded._id,
-        postId: this.postId,
-        amount: voteAmount
-
-      }
-
-      axios.post("http://localhost:3000/api/vote/", upvoteToSave).then((response) => {
-        console.log(response);
-      }).catch((error) => {
-        console.log(error)
-      });
-
-      this.btnAble = '';
-    },
-
+    }
   }
 };
 </script>
