@@ -19,7 +19,7 @@
 
                <router-link to="#" class="postCardLinks" > 
                 <i class="el-icon-edit" ></i>
-                <span>2 </span>
+                <span>{{post._comments.length}}</span>
                </router-link>
                  | By :
                <router-link to="#" class="postCardLinks">

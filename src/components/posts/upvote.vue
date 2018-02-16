@@ -25,7 +25,10 @@ export default {
   },
   created() {
     if (this.$store.getters.isLoggedIn) {
-      var id = $this.store.getters.userId;
+
+      let token = utils.getToken(localStorage.getItem("token"));
+      let decoded = jwt.decode(token, utils.Secret);
+      let id = decoded._id
 
       this.totalAmountUpvotes = this.getUpvotesCountAndCurrentUpvote(
         this.upvotes,

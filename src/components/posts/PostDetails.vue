@@ -14,7 +14,7 @@
                       
               </el-col>
               <div class="postDetails">
-                <el-col :xs="24" :sm="18" :md="18" :lg="18" :xl="18"  >
+                <el-col :xs="24" :sm="16" :md="16" :lg="16" :xl="16"  >
                   <h1>{{post.title}}</h1> 
                   
                   <span><i class="el-icon-view"></i>  {{post.__v}} </span>
@@ -22,9 +22,11 @@
                   <span> <i class="el-icon-edit" ></i> {{post._comments.length}}  comments</span>    
                   <span> by : <router-link to="/">{{post._creator.username}}</router-link>  </span>
                   <span> <i class="el-icon-time" ></i> {{getTimeNow(post.createdAt)}}  </span>  
-                  
+                  <el-button v-if="currentUserPost" type="primary" icon="el-icon-edit">Edit</el-button>
                 </el-col>
+
               </div>
+              
             </el-row>
           </div>
             
@@ -79,9 +81,9 @@ import axios from "axios";
 import moment from "moment";
 import jwt from "jwt-simple";
 import utils from "../../config/utils";
-import upvoteElement from './upvote.vue'
+import upvoteElement from "./upvote.vue";
 export default {
- components:{
+  components: {
     upvoteElement
   },
   data() {
@@ -90,6 +92,7 @@ export default {
       comment: {
         textcomment: ""
       },
+      currentUserPost: false,
 
       rules: {
         textcomment: [
@@ -120,6 +123,11 @@ export default {
         .get("http://localhost:3000/api/post/" + id)
         .then(response => {
           this.post = response.data.post;
+          var decoded = jwt.decode(utils.getToken(localStorage.getItem("token")), utils.Secret);
+          if(decoded._id === response.data.post._creator._id){
+            this.currentUserPost = true;
+          }
+          console.log(this.currentUserPost)
         })
         .catch(e => {
           console.log(e);
@@ -130,15 +138,12 @@ export default {
       if (this.$store.getters.isLoggedIn) {
         this.$refs["comment"].validate(valid => {
           if (valid) {
-            var tokenStore = localStorage.getItem("token");
+            
 
             if (tokenStore) {
               var token = utils.getToken(tokenStore);
-              console.log("Token from adding post : " + token);
-              console.log(utils.Secret);
               var decoded = jwt.decode(token, utils.Secret);
             } else {
-              console.log("user not logged in ");
               this.$router.push("/login");
             }
 
@@ -147,14 +152,14 @@ export default {
               postId: this.$route.params.id,
               userId: decoded._id
             };
-            
+
             axios
               .post("http://localhost:3000/api/comment", commentToStore, {
                 headers: { Authorization: localStorage.getItem("token") }
               })
               .then(response => {
                 console.log(response);
-/*                 let commentToShow = {
+                /*                 let commentToShow = {
                         text: this.comment.textcomment,
                         _creator: {
                               _id: decoded._id,
@@ -164,17 +169,14 @@ export default {
                       }, */
 
                 this.post._comments.push({
-                
-                 text: this.comment.textcomment,
-                _creator: {
-                   
-                    username:  decoded.username
-                },
-                createdAt: Date()
-            });
+                  text: this.comment.textcomment,
+                  _creator: {
+                    username: decoded.username
+                  },
+                  createdAt: Date()
+                });
 
-
-                this.comment.textcomment = '';
+                this.comment.textcomment = "";
               })
               .catch(error => {
                 console.log(error);
@@ -191,8 +193,7 @@ export default {
 
     getTimeNow(time) {
       return moment(time).fromNow();
-    },
-    
+    }
   }
 };
 </script>
@@ -211,11 +212,11 @@ export default {
   text-align: center;
 }
 
-.NumberVotes{
-    color: #409EFF;
-    font-size: 18px;
+.NumberVotes {
+  color: #409eff;
+  font-size: 18px;
 
-    padding : 5px;
+  padding: 5px;
 }
 
 h1 {

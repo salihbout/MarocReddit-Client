@@ -1,7 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import jwt from 'jwt-simple';
-import utils from './config/utils'
+
 
 const LOGIN = "LOGIN";
 const LOGIN_SUCCESS = "LOGIN_SUCCESS";
@@ -12,8 +11,6 @@ Vue.use(Vuex);
 export const store =  new Vuex.Store({
   state: {
     isLoggedIn: !!localStorage.getItem("token"),
-    userToken:'', 
-    userId:''
   },
   mutations: {
     [LOGIN] (state) {
@@ -21,10 +18,6 @@ export const store =  new Vuex.Store({
     },
     [LOGIN_SUCCESS] (state) {
       state.isLoggedIn = true;
-      state.userToken = localStorage.getItem("token");
-      var decoded = jwt.decode(token, utils.Secret); 
-      state.userId = decoded._id;
-
       state.pending = false;
     },
     [LOGOUT](state) {
@@ -54,11 +47,6 @@ export const store =  new Vuex.Store({
     isLoggedIn: state => {
       return state.isLoggedIn;
      }, 
-     userToken: state => {
-       return state.userToken;
-     }, 
-     userId : state => {
-       return state.userId;
-     }
+
      }
 });  
