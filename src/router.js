@@ -36,17 +36,17 @@ export const  routes = [
   {
     path:'/posts/:id/edit', 
     component: PostEdit, 
-    name: 'PostEdit',
+    name: 'PostEdit'
   },
   {
     path:'/posts/add', 
     component: PostAdd, 
-    name: 'PostAdd',
+    name: 'PostAdd'
   },
   {
     path:'/chat', 
     component: Chat, 
-    name: 'Chat',
+    name: 'Chat'
   },
   {
     path:'/news',

@@ -6,20 +6,19 @@
                 <el-col  :xs="4" :sm="4" :md="4" :lg="4" :xl="4" >   
                     <el-menu-item index="0" >
                         <div class="logoSection">
-                            <div id="logo">AI Maroc</div>
+                            <img id="logo" src="../../assets/logo.png" alt="">
                         </div>
                     </el-menu-item>
                 </el-col>
                 <el-col  :xs="14" :sm="14" :md="14" :lg="14" :xl="14" >
                     <router-link to="/" active-class="active" exact><el-menu-item index="1">Home</el-menu-item></router-link>
-                    <router-link :to="{name: 'Topics'}">
+
                         <el-submenu index="2">
                           <template slot="title">Topics</template>
-                          <el-menu-item index="2-1">item one</el-menu-item>
+                           <router-link v-for="(topic, index) in topics" v-bind:key="index" :to="{name: 'Topic', params:topic._id}" exact><el-menu-item  index="2-1">{{topic.name}}</el-menu-item></router-link>
                         </el-submenu>
-                    </router-link>
-                    <router-link :to="{name: 'News'}" exact><el-menu-item index="3">News</el-menu-item></router-link>
-                    <router-link :to="{name: 'Chat'}" exact><el-menu-item index="4">Chat</el-menu-item></router-link>
+                    <router-link :to="{name: 'News'}" ><el-menu-item index="3">News</el-menu-item></router-link>
+                    <router-link :to="{name: 'Chat'}" ><el-menu-item index="4">Chat</el-menu-item></router-link>
                 </el-col>
                 <el-col :xs="8" :sm="4" :md="4" :lg="4" :xl="4" class="loggedIn" v-if="isLoggedIn">
                     <el-popover
@@ -74,10 +73,12 @@
 <script>
 import jwt from "jwt-simple";
 import utils from "../../config/utils";
+import axios from "axios";
 export default {
   data() {
     return {
       activeIndex: "1",
+      topics: ""
     };
   },
   methods: {
@@ -95,11 +96,32 @@ export default {
         var decoded = jwt.decode(token, utils.Secret);
         return decoded;
       }
+    },
+    fetchTopics() {
+      axios
+        .get("http://localhost:3000/api/topicsInfos")
+        .then(response => {
+          console.log(response);
+          if (response.data.success) {
+            this.topics = response.data.topics;
+          } else {
+            this.$message({
+              showClose: true,
+              message: "Something went wrong, please reload the page !"
+            });
+          }
+        })
+        .catch(err => {
+          this.$message({
+            showClose: true,
+            message: err
+          });
+        });
     }
   },
+
   created() {
-    console.log("token : " + localStorage.getItem("token"));
-    console.log("isLoggedIn : " + this.isLoggedIn);
+    this.fetchTopics();
   },
   computed: {
     isLoggedIn() {
@@ -119,11 +141,8 @@ export default {
 </script>
 <style scoped>
 #logo {
-  color: #409eff;
-
-  font-family: "Franklin Gothic Medium";
-  font-weight: bold;
-  font-size: 26px;
+  height: 70%;
+  width: 70%;
 }
 
 .loggedIn {
