@@ -43,10 +43,10 @@
 
                         <el-dropdown>
                     <span class="el-dropdown-link">
-                        Hello {{getUsernameFromStoredToken}}<i class="el-icon-arrow-down el-icon--right"></i>
+                        Hello {{Username}}<i class="el-icon-arrow-down el-icon--right"></i>
                     </span>
                     <el-dropdown-menu slot="dropdown">
-                        <el-dropdown-item>Profile</el-dropdown-item>
+                        <router-link :to="{name: 'Profile', params: {id : UserID}}"  exact><el-dropdown-item>Profile</el-dropdown-item></router-link>
                         <el-dropdown-item>Settings</el-dropdown-item>
                         <el-dropdown-item>Help</el-dropdown-item>
                         <el-dropdown-item  divided><el-button @click="logout">Logout</el-button></el-dropdown-item>
@@ -66,30 +66,34 @@
 
 
 <script>
-import jwt from 'jwt-simple';
-import utils from '../../config/utils'
+import jwt from "jwt-simple";
+import utils from "../../config/utils";
 export default {
   data() {
     return {
       activeIndex: "1",
-      CategoriesMenuItems : [
-          {name : "Technology", 
-            link: "#"
-          },
-           {name : "Gags", 
-            link: "#"
-          },
-           {name : "Politics", 
-            link: "#"
-          },
-           {name : "Sport", 
-            link: "#"
-          },
-          {name : "Fashion", 
-            link: "#"
-          }
-           
-           ]
+      CategoriesMenuItems: [
+        {
+          name: "Technology",
+          link: "#"
+        },
+        {
+          name: "Gags",
+          link: "#"
+        },
+        {
+          name: "Politics",
+          link: "#"
+        },
+        {
+          name: "Sport",
+          link: "#"
+        },
+        {
+          name: "Fashion",
+          link: "#"
+        }
+      ]
     };
   },
   methods: {
@@ -97,39 +101,41 @@ export default {
       console.log(key, keyPath);
     },
     logout() {
-     this.$store.dispatch('logout');
-     this.$router.push("/");
+      this.$store.dispatch("logout");
+      this.$router.push("/");
+    },
+    getUserInfoFromStorage() {
+      var username = "";
+      var token = utils.getToken(localStorage.getItem("token"));
+      if (token && typeof token !== "undefined") {
+        var decoded = jwt.decode(token, utils.Secret);
+        return decoded;
+      }
     }
-
-
   },
-  created(){
-      
-         console.log("token : "+localStorage.getItem("token"));
-         console.log("isLoggedIn : "+ this.isLoggedIn);
-      
+  created() {
+    console.log("token : " + localStorage.getItem("token"));
+    console.log("isLoggedIn : " + this.isLoggedIn);
   },
   computed: {
     isLoggedIn() {
       return this.$store.getters.isLoggedIn;
-    }, 
-    getUsernameFromStoredToken() {
-        var username = '';
-        var token = utils.getToken(localStorage.getItem("token"));
-        if(token && typeof token !== 'undefined'){
-            var decoded = jwt.decode(token, utils.Secret);
-            username = decoded.username;
-        }
-        
-        return username;
-        
+    },
+    Username() {
+      var user = this.getUserInfoFromStorage();
+      return user.username;
+    },
+
+    UserID() {
+      var user = this.getUserInfoFromStorage();
+      return user._id;
     }
   }
 };
 </script>
 <style scoped>
 #logo {
-  color: #409EFF;
+  color: #409eff;
 
   font-family: "Franklin Gothic Medium";
   font-weight: bold;
@@ -141,12 +147,10 @@ export default {
 }
 
 #NotificationsBell {
-    font-size: 20px;
+  font-size: 20px;
 }
 
-
-.UserDropDown{
-
-    padding-top: 15px;
+.UserDropDown {
+  padding-top: 15px;
 }
 </style>

@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Home from './components/pages/Home.vue';
 import Login from './components/users/login.vue';
 import SignUp from './components/users/Signup.vue';
+import Profile from './components/pages/Profile.vue';
 import PostDetails from './components/posts/PostDetails.vue';
 import PostAdd from './components/posts/PostAdd.vue';
 import PostEdit from './components/posts/PostEdit.vue';
@@ -56,6 +57,12 @@ export const  routes = [
     path : '/room/:id',
     component: ChatRoom,
     name : 'ChatRoom'
+
+  },
+  {
+    path : '/user/:id',
+    component: Profile,
+    name : 'Profile'
 
   }
 
