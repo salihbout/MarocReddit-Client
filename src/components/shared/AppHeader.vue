@@ -12,6 +12,12 @@
                 </el-col>
                 <el-col  :xs="14" :sm="14" :md="14" :lg="14" :xl="14" >
                     <router-link to="/" active-class="active" exact><el-menu-item index="1">Home</el-menu-item></router-link>
+                    <router-link :to="{name: 'Topics'}">
+                        <el-submenu index="2">
+                          <template slot="title">Topics</template>
+                          <el-menu-item index="2-1">item one</el-menu-item>
+                        </el-submenu>
+                    </router-link>
                     <router-link :to="{name: 'News'}" exact><el-menu-item index="3">News</el-menu-item></router-link>
                     <router-link :to="{name: 'Chat'}" exact><el-menu-item index="4">Chat</el-menu-item></router-link>
                 </el-col>
@@ -72,28 +78,6 @@ export default {
   data() {
     return {
       activeIndex: "1",
-      CategoriesMenuItems: [
-        {
-          name: "Technology",
-          link: "#"
-        },
-        {
-          name: "Gags",
-          link: "#"
-        },
-        {
-          name: "Politics",
-          link: "#"
-        },
-        {
-          name: "Sport",
-          link: "#"
-        },
-        {
-          name: "Fashion",
-          link: "#"
-        }
-      ]
     };
   },
   methods: {

@@ -25,10 +25,9 @@ export default {
   },
   created() {
     if (this.$store.getters.isLoggedIn) {
-
       let token = utils.getToken(localStorage.getItem("token"));
       let decoded = jwt.decode(token, utils.Secret);
-      let id = decoded._id
+      let id = decoded._id; 
 
       this.totalAmountUpvotes = this.getUpvotesCountAndCurrentUpvote(
         this.upvotes,
@@ -98,6 +97,9 @@ export default {
         } else if (voteAmount == -1) {
           this.isDownDisabled = true;
         }
+
+        let token = utils.getToken(localStorage.getItem("token"));
+        let decoded = jwt.decode(token, utils.Secret);
 
         var upvoteToSave = {
           userId: decoded._id,
